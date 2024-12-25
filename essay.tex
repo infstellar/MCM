@@ -1,10 +1,13 @@
 \documentclass[a4paper]{article}
 \usepackage[margin=1in]{geometry} % 设置边距，符合Word设定
-\usepackage{ctex}
+% \usepackage{ctex}
+\usepackage{graphicx} %插入图片的宏包
+\usepackage{float} %设置图片浮动位置的宏包
+\usepackage{subfigure} %插入多图时用子图显示的宏包
 \usepackage{lipsum}
-\title{\heiti\zihao{2} This is a test for vscode}
-\author{\songti Ali-loner}
-\date{2020.08.02}
+\title{ This is a test for vscode}
+\author{ Ali}
+\date{\today}
 
 \begin{document}
     \maketitle
@@ -12,7 +15,61 @@
     \lipsum[2]
 \end{abstract}
 \tableofcontents
-\section{This is a section}
+\section{Introduction}
+\subsection{Background}
+\subsection{Our Work}
+\subsection{Data Pre-processing}
 
-Hello world! 你好，世界 ！
+
+\section{Assumptions}
+我们通过在网上查找多方面的资料并参考权威数据，最后对33个项目的七个维度进行了评分，结果如下：
+
+展示表格
+
+\section{Abbreviation and Definitions}
+\section{The Evaluate Model}
+\subsection{线性拟合模型}
+我们首先排除了一些数据比较差的项目，比如1，2，3.最后我们选择33个项目的数据训练我们的模型。
+然后，我们使用一次线性拟合，对每一个项目从1948到2020年的项目数进行了拟合：
+\begin{figure}[H] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
+    \centering %图片居中
+    \includegraphics[width=0.7\textwidth]{TrendChartOfProject} %插入图片，[]中设置图片大小，{}中是图片文件名
+    \caption{Main name 2} %最终文档中希望显示的图片标题
+    \label{Fig.main2} %用于文内引用的标签
+    \end{figure}
+
+\subsection{随机森林回归}
+\subsubsection{Introduction}
+%TODO: 随机森林回归的定义
+
+我们以七个维度和作为自变量，线性拟合的斜率作为因变量，训练了一个随机森林回归模型。
+
+\subsubsection{Implementation}
+我们使用了python 的sklearn模块的随机森林拟合算法，
+展示图片
+
+
+\subsubsection{Result Analysis}
+在测试集中，我们的模型的R Square误差达到了0.98，均方误差达到0.004，回归训练比较成功。
+
+我们使用了这个模型预测了在训练集与测试集之外的数据：
+
+展示图片
+
+结果表明，我们的模型在预测项目数量的增长上取得了成功。
+
+
+
+\section{对SDE项目的预测}
+我们对某个SDE项目进行了评分，输入我们的模型，得到了如下结果
+
+我们认为 它的增长是xxx
+\subsubsection{Background of This Problem}
+\subsection{Efficiency and Robustness}
+\section{Sensitivity Analysis}
+\section{Strengths and Weaknesses}
+\subsection{Strengths}
+\subsection{Weaknesses}
+\section{Conclution}
+Hello world!
 \end{document}  

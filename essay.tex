@@ -5,6 +5,8 @@
 \usepackage{float} %设置图片浮动位置的宏包
 \usepackage{subfigure} %插入多图时用子图显示的宏包
 \usepackage{lipsum}
+\usepackage{minted}% 语法高亮和代码样式设置方面更加强大和灵活
+\usepackage{listings}% 引入listings包，用于在文档中插入代码，并可自定义代码样式
 \title{ This is a test for vscode}
 \author{ Ali}
 \date{\today}
@@ -46,11 +48,34 @@
 
 \subsubsection{Implementation}
 我们使用了python 的sklearn模块的随机森林拟合算法，
-展示图片
+% 行间代码例子
+\begin{listing}[htb]
+	\caption{处理请求}
+	\label{code:processdweet}
+	\begin{minted}{python3}
+        X = data.iloc[:, :-1]  # 自变量
+        y = data.iloc[:, -1]   # 因变量
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        # 3. 数据标准化（如果需要）
+        scaler = StandardScaler()
+        X_train = scaler.fit_transform(X_train)
+        X_test = scaler.transform(X_test)
+        # 4. 模型选择与训练
+        model = RandomForestRegressor(n_estimators=100, random_state=42)
+        model.fit(X_train, y_train)
+\end{minted}
+\end{listing}
 
 
 \subsubsection{Result Analysis}
 在测试集中，我们的模型的R Square误差达到了0.98，均方误差达到0.004，回归训练比较成功。
+
+\begin{quote}
+Mean Squared Error: 0.0004830
+
+R-squared: 0.985916
+\end{quote}
+
 
 我们使用了这个模型预测了在训练集与测试集之外的数据：
 

@@ -7,12 +7,19 @@
 \usepackage{lipsum}
 \usepackage{minted}% 语法高亮和代码样式设置方面更加强大和灵活
 \usepackage{listings}% 引入listings包，用于在文档中插入代码，并可自定义代码样式
+\usepackage{caption}
+
+
+\title{ This is a test for vscode}
+\author{ Ali}
 \title{奥运会项目评估模型：随机森林回归在体育决策中的应用}
 \author{ 郭润恒 杨子程 邱信阳}
 \date{\today}
 
 \begin{document}
     \maketitle
+
+
 \begin{abstract}
     随着奥运会项目的不断演变，国际奥林匹克委员会（IOC）面临着选择哪些运动项目（SDEs）加入2032年夏季奥运会的挑战。本研究旨在通过构建一个数学模型，根据IOC的标准评估SDEs，以提供有依据的推荐。该模型综合考虑了受欢迎度和可达性、性别平等、可持续性、包容性、相关性与创新以及安全与公平竞争等多个维度。通过对历史数据的分析和模型的构建，我们识别出可能在2032年布里斯班奥运会上新增或重新引入的SDEs，并对其优先级进行排序。本研究的结果将为IOC提供决策支持，确保奥运会项目的相关性和影响力。
 \end{abstract}
@@ -33,6 +40,7 @@
 \subsection{线性拟合模型}
 % 我们首先排除了一些数据比较差的项目，比如1，2，3.最后我们选择33个项目的数据训练我们的模型。
 % 然后，我们使用一次线性拟合，对每一个项目从1948到2020年的项目数进行了拟合：
+\captionsetup[listing]{labelformat=empty}
 \begin{figure}[H] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
     \centering %图片居中
     \includegraphics[width=0.7\textwidth]{TrendChartOfProject} %插入图片，[]中设置图片大小，{}中是图片文件名
@@ -47,37 +55,20 @@
 % 我们以七个维度和作为自变量，线性拟合的斜率作为因变量，训练了一个随机森林回归模型。
 
 \subsubsection{Implementation}
-% 我们使用了python 的sklearn模块的随机森林拟合算法，
-% 行间代码例子
-\begin{listing}[htb]
-	\caption{处理请求}
-	\label{code:processdweet}
-	\begin{minted}{python3}
-        X = data.iloc[:, :-1]  # 自变量
-        y = data.iloc[:, -1]   # 因变量
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        # 3. 数据标准化（如果需要）
-        scaler = StandardScaler()
-        X_train = scaler.fit_transform(X_train)
-        X_test = scaler.transform(X_test)
-        # 4. 模型选择与训练
+We used the random forest fitting algorithm from the sklearn module of python.
+% Code
+\begin{listing}[htb]\caption{STH}\label{code:processdweet}
+    \begin{minted}{python3}
         model = RandomForestRegressor(n_estimators=100, random_state=42)
         model.fit(X_train, y_train)
-\end{minted}
+\end{minted} 
 \end{listing}
 
 
 \subsubsection{Result Analysis}
-在测试集中，我们的模型的R Square误差达到了0.98，均方误差达到0.004，回归训练比较成功。
+In the test set, our model achieved an R Square error of 0.6 and a mean square error of 0.12, making the regression training basically successful.
 
-\begin{quote}
-Mean Squared Error: 0.0004830
-
-R-squared: 0.985916
-\end{quote}
-
-
-我们使用了这个模型预测了在训练集与测试集之外的数据：
+We used this model to predict data outside of the training and test sets
 
 展示图片33333
 

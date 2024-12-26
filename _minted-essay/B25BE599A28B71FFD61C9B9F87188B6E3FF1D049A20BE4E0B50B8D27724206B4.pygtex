@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+        \PYG{n}{X} \PYG{o}{=} \PYG{n}{data}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[:,} \PYG{p}{:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}  \PYG{c+c1}{\PYGZsh{} 自变量}
+        \PYG{n}{y} \PYG{o}{=} \PYG{n}{data}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[:,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}   \PYG{c+c1}{\PYGZsh{} 因变量}
+        \PYG{n}{X\PYGZus{}train}\PYG{p}{,} \PYG{n}{X\PYGZus{}test}\PYG{p}{,} \PYG{n}{y\PYGZus{}train}\PYG{p}{,} \PYG{n}{y\PYGZus{}test} \PYG{o}{=} \PYG{n}{train\PYGZus{}test\PYGZus{}split}\PYG{p}{(}\PYG{n}{X}\PYG{p}{,} \PYG{n}{y}\PYG{p}{,} \PYG{n}{test\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mf}{0.2}\PYG{p}{,} \PYG{n}{random\PYGZus{}state}\PYG{o}{=}\PYG{l+m+mi}{42}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} 3. 数据标准化（如果需要）}
+        \PYG{n}{scaler} \PYG{o}{=} \PYG{n}{StandardScaler}\PYG{p}{()}
+        \PYG{n}{X\PYGZus{}train} \PYG{o}{=} \PYG{n}{scaler}\PYG{o}{.}\PYG{n}{fit\PYGZus{}transform}\PYG{p}{(}\PYG{n}{X\PYGZus{}train}\PYG{p}{)}
+        \PYG{n}{X\PYGZus{}test} \PYG{o}{=} \PYG{n}{scaler}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{X\PYGZus{}test}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} 4. 模型选择与训练}
+        \PYG{n}{model} \PYG{o}{=} \PYG{n}{RandomForestRegressor}\PYG{p}{(}\PYG{n}{n\PYGZus{}estimators}\PYG{o}{=}\PYG{l+m+mi}{100}\PYG{p}{,} \PYG{n}{random\PYGZus{}state}\PYG{o}{=}\PYG{l+m+mi}{42}\PYG{p}{)}
+        \PYG{n}{model}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{X\PYGZus{}train}\PYG{p}{,} \PYG{n}{y\PYGZus{}train}\PYG{p}{)}
+\end{Verbatim}

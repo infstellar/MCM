@@ -56,9 +56,15 @@ We then used one linear fit to the number of projects from 1948 to 2020 for each
 我们以七个维度和作为自变量，线性拟合的斜率作为因变量，训练了一个随机森林回归模型。随机森林模型是一种基于决策树的模型，其本身是多个决策树并行的训练方式，有效地降低了训练的时间地同时带来更加精确的数据模型。该模型具有随机性强、不易overfit、对异常点outlier不敏感、适用于数据集中存在大量未知特征的情况、处理高维数据相对较快、能够估计哪个特征在分类中更重要、可以并行处理的优点，不过由于是黑盒，其不可解释的地方较多，在噪声过大的地方容易过拟合。
 \subsubsection{Principle}
 随机森林模型是基于决策树的，此处首先解释决策树选择最优决策的方法。此处引入熵的概念。\\
-决策树是一种二叉树，每一层只做出一种选择，通过熵我们可以衡量每一个父节点的不确定性。\\
+决策树是一种二叉树，每一层只做出一种选择，我们可以通过熵来衡量每一个父节点的不确定性。熵的计算公式如下：\\
 $$H(X)= -\sum_{k=1}^N p_k log_2(p_k)$$
-
+除去整一棵决策树的祖先，和最小的子节点，我们能算出每一个节点的熵的增益：
+$$G(D)= H(X)-\sum_{v=1}^V \frac {\left|D^v\right|}{\left|D\right|} H(D)^v$$
+其中G(D)表示熵的增益，H(X)表示上一层的熵，后面是当前一层的熵的总和。\\
+决策树的整体流程如下：\\
+(1) 过滤所有可能的决策条件。\\
+(2) 选择子节点熵最小的决策条件。\\
+(3) Repeat step1 and step2 until it reach the maximumpredefined depth or all the elements in a single lead node belong to one class.\\
 \subsubsection{Implementation}
 We used the random forest fitting algorithm from the sklearn module of python.
 % Code

@@ -28,6 +28,7 @@
 \end{abstract}
 \tableofcontents
 \section{Introduction}
+
 \subsection{Background}     
 \subsection{Our Work}
 \subsection{Data Pre-processing}
@@ -83,13 +84,14 @@ In the test set, our model achieved an R Square error of 0.6 and a mean square e
 
 We used this model to predict data outside of the training and test sets
 
-\begin{center}
-    \begin{tabular}{ c c c }
-     cell1 & cell2 & cell3 \\ 
-     cell4 & cell5 & cell6 \\  
-     cell7 & cell8 & cell9    
+\begin{table}[]
+    \begin{tabular}{lllllllll}
+    Name      & Popularity and Accessibility & Gender Equity & Sustainability & Inclusivity & Relevance and Innovation & Safety and Fair Play & Basis & Rank        \\
+    Wrestling & 0.7                          & 0.6           & 0.8            & 0.8         & 0.5                      & 0.8                  & 0     & 0.105263158 \\
+              &                              &               &                &             &                          &                      &       &             \\
+              &                              &               &                &             &                          &                      &       &            
     \end{tabular}
-    \end{center}
+    \end{table}
 
 结果表明，我们的模型在预测项目数量的增长上取得了成功。
 

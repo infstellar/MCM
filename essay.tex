@@ -67,7 +67,8 @@ $$G(D)= H(X)-\sum_{v=1}^V \frac {\left|D^v\right|}{\left|D\right|} H(D)^v$$
 决策树的整体流程如下：\\
 (1) 过滤所有可能的决策条件。\\
 (2) 选择子节点熵最小的决策条件。\\
-(3) Repeat step1 and step2 until it reach the maximumpredefined depth or all the elements in a single lead node belong to one class.\\
+(3) Repeat step1 and step2 until it reach the maximumpredefined depth or all the elements in a single lead node belong to one class.\\[1em]
+接着来讲随机森林模型。随机森林模型首先从大量的数据中取样，然后构建多棵并行的决策树，基于决策树的熵最小决策原理得到每一棵树的最终决策，通过回归算法我们能用这些决策获得一个最终评测值，通过指定指标即可获得预测结果。
 \subsubsection{Implementation}
 We used the random forest fitting algorithm from the sklearn module of python.
 % Code

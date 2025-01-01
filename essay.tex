@@ -27,7 +27,7 @@
     The adjustment of Olympic SDEs is an important way for the continuous development of the Olympic Games. Adjusting the Olympic SDEs is conducive to enhancing the social and contemporary value of the Olympics. This paper mainly uses the random forest regression model to evaluate and predict the increase or decrease of future Olympic SDEs.
     \par For Task 1, based on the IOC standards, we searched for a variety of information online and referred to authoritative data to score these sports on seven dimensions: popularity and accessibility, gender equality, sustainability, inclusivity, relevance and innovation, safety and fair competition, and the possibility of creating more events, each on a scale of 0-1. 
     \par For Task 2, we analyzed the table of event numbers from 1948 to 2020 and used the Python language for data visualization. Then, we performed a linear fit to analyze the regularity of the changes in the number of events from 1948 to 2020. Subsequently, we trained a random forest regression model using the seven dimensions as independent variables and the slope of the linear fit as the dependent variable.
-    \par For Task 4, we utilized the well-trained random forest regression model to identify three SDEs that may be added or reintroduced at the 2032 Brisbane Olympic Games and determined their priority recommendation order.
+    \par For Task 3, we utilized the well-trained random forest regression model to identify three SDEs that may be added or reintroduced at the 2032 Brisbane Olympic Games and determined their priority recommendation order.
 \end{abstract}
 \tableofcontents
 \section{Introduction}
@@ -35,8 +35,26 @@
 \subsection{Background}  
 The adjustment of Olympic SDEs plays a vital role in the development of the Olympic Games, allowing the Olympics to keep pace with the social and contemporary needs. Data shows trend of SDEs' changes, while IOC also gives its criteria for sports inclution. To better evaluate SDE's addition and reduction, we need to figure out inner relationship between IOC criteria and SDE's changes.
 
-（来两张图吧，别人这段都有图表的）
-\subsection{Our Work}
+（来两张图吧，别人这段都有图表的,参照《2021年美赛特等奖原版论文集》）
+\subsection{Restatement of the Problems}
+\begin{itemize}
+\item[$\bullet$]List and describe the various factors your team identifies that need to be
+considered when addressing the IOC criteria. Note that factors may be quantitative or qualitative,
+constant or variable, and deterministic or probabilistic. Be sure to justify your choices.
+\item[$\bullet$]Use your factors to build a model (or set of models) to help the IOC evaluate
+which SDEs align best with Olympic criteria. Test your model on at least three SDEs that have been added or removed from recent
+Olympics, namely Olympic years 2020, 2024, and 2028 and at least three SDEs that have
+continuously been in the Olympic programme since the 1988 games or earlier. The
+supplied data provides information about which sports and
+disciplines, and number of events, have appeared in each Olympics since their modern
+formation. Be sure to highlight the general applicability of your model by choosing a
+diverse collection of SDEs to evaluate. Discuss how your model affirms these SDEs’
+current Olympic status.
+\item[$\bullet$]Identify three SDEs that could be new additions or reintroductions for the 2032 Olympics
+in Brisbane. Make sure to identify which SDE should be considered first, second and
+third for inclusion in the Brisbane games. Are there any SDEs that you believe have
+potential for inclusion in an Olympic games in 2036 or beyond?
+\end{itemize}
 \subsection{Data Pre-processing}
 
 

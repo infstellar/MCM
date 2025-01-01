@@ -8,7 +8,11 @@
 \usepackage{minted}% 语法高亮和代码样式设置方面更加强大和灵活
 \usepackage{listings}% 引入listings包，用于在文档中插入代码，并可自定义代码样式
 \usepackage{caption}
-
+\usepackage{subfigure}% 并排插入图片
+% 表格宏包：
+\usepackage{booktabs}  %% 三线表
+\usepackage{diagbox}   %% 斜线表头
+\usepackage{multirow}  %% 合并单元格
 
 
 \title{奥运会项目评估模型：随机森林回归在体育决策中的应用}
@@ -56,25 +60,39 @@ third for inclusion in the Brisbane games. Are there any SDEs that you believe h
 potential for inclusion in an Olympic games in 2036 or beyond?
 \end{itemize}
 \subsection{Data Pre-processing}
-
-
-\section{Assumptions}
-我们通过在网上查找多方面的资料并参考权威数据，最后对33个项目的七个维度进行了评分，结果如下：
-
-展示表格
-
-\section{Abbreviation and Definitions}
-\section{The Evaluate Model}
-\subsection{线性拟合模型}
-We first excluded some items with poor data, such as 1, 2, and 3.Finally, we chose data from 33 items to train our model, 20\% of them are randomly decided as test dataset for model, and two of them are for manually test.
-We then used one linear fit to the number of projects from 1948 to 2020 for each project:
+We first excluded some items with poor data, such as polo, rackets and karate, choosing data from 33 items to train our model (20\% of them are randomly decided as test dataset for model, and two of them are for manually test).
+We then used linear fit to the number of projects from 1948 to 2020 for each project. Figure 1 shows the result of linear fit. 
+Discovering that the intercept of figure 1 is suitable for evaluating new or old SDEs, we generated figure 2, whose y axis shows the intercept of figure 1,
+and x axis represents the increasing rate of each SDE.
 \captionsetup[listing]{labelformat=empty}
-\begin{figure}[H] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
+\begin{figure}[h] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
     \centering %图片居中
-    \includegraphics[width=0.7\textwidth]{TrendChartOfProject} %插入图片，[]中设置图片大小，{}中是图片文件名
+    \includegraphics[width=0.8\textwidth]{图片1.png} %插入图片，[]中设置图片大小，{}中是图片文件名
     \caption{Main name 2} %最终文档中希望显示的图片标题
     \label{Fig.main2} %用于文内引用的标签
     \end{figure}
+\begin{figure}[h] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
+    \centering %图片居中
+    \includegraphics[width=0.8\textwidth]{TrendChartOfProject} %插入图片，[]中设置图片大小，{}中是图片文件名
+    \caption{Main name 2} %最终文档中希望显示的图片标题
+    \label{Fig.main2} %用于文内引用的标签
+    \end{figure}
+
+
+\section{Assumptions}
+% 我们通过在网上查找多方面的资料并参考权威数据，最后对33个项目的七个维度进行了评分，结果如下：
+% 展示表格
+To simplify the problem, we make the following basic assumptions, each of which is
+properly justified.
+\begin{itemize}
+\item[$\bullet$]Assumption 1: According to online information and authoritative data, 
+we scored the seven dimensions of 33 projects from 0~1 (1 means the best). The results are as follows:
+
+
+
+\end{itemize}
+\section{Abbreviation and Definitions}
+\section{The Evaluate Model}
 
 \subsection{随机森林回归}
 \subsubsection{Introduction}
@@ -128,7 +146,7 @@ We used this model to predict data outside of the training and test sets
 我们认为 它的增长是xxx
 \subsubsection{Background of This Problem}
 \subsection{Efficiency and Robustness}
-\section{Sensitivity Analysis}
+% \section{Sensitivity Analysis}
 \section{Strengths and Weaknesses}
 \subsection{Strengths}
 \subsection{Weaknesses}

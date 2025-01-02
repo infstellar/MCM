@@ -99,7 +99,7 @@ Olympics, Random Forest Regression
 \subsubsection{Introduction}
 %TODO: 随机森林回归的定义
 
-我们以七个维度和作为自变量，线性拟合的斜率作为因变量，训练了一个随机森林回归模型。随机森林模型是一种基于决策树的模型，其本身是多个决策树并行的训练方式，有效地降低了训练的时间地同时带来更加精确的数据模型。该模型具有随机性强、不易overfit、对异常点outlier不敏感、适用于数据集中存在大量未知特征的情况、处理高维数据相对较快、能够估计哪个特征在分类中更重要、可以并行处理的优点，不过由于是黑盒，其不可解释的地方较多，在噪声过大的地方容易过拟合。
+我们以七个维度和作为自变量，线性拟合的斜率作为因变量，训练了一个随机森林回归模型。随机森林模型是一种基于决策树的模型，其本身是多个决策树并行的训练方式，有效地降低了训练的时间地同时带来更加精确的数据模型。
 \subsubsection{Principle}
 随机森林模型是基于决策树的，此处首先解释决策树选择最优决策的方法。此处引入熵的概念。\\
 决策树是一种二叉树，每一层只做出一种选择，我们可以通过熵来衡量每一个父节点的不确定性。熵的计算公式如下：\\
@@ -167,14 +167,19 @@ We used this model to predict data outside of the training and test sets
 我们认为 它的增长是xxx
 \subsection{Background of This Problem}
 To determine whether to play or not to play, IOC’s Olympic Programme Commission has developed a set of 
-criteria: \textbf{Popularity and Accessibility}, \textbf{Gender Equity},  \textbf{Sustainability}, \textbf{Inclusivity}, \textbf{Relevance and Innovation}, \textbf{Safety and Fair Play}. We use these criteria to evaluate which SDEs should be added or removed,  
+criteria: \textbf{Popularity and Accessibility}, \textbf{Gender Equity},  \textbf{Sustainability}, \textbf{Inclusivity}, \textbf{Relevance and Innovation}, \textbf{Safety and Fair Play}. We use these criteria to evaluate which SDEs should be added or removed.
+\subsection{Appliance}
+By using random forest model, we analyse the slope of the lines which we build from the data of the number of SDEs and its link between the six criteria, then train them into a model. By using this model, we can use the output to predict the trend of the any sport by inputing datas of the six criteria.
 \subsection{Efficiency and Robustness}
 % \section{Sensitivity Analysis}
 \section{Strengths and Weaknesses}
+
 \subsection{Strengths}
+该模型具有随机性强、不易overfit、对异常点outlier不敏感、适用于数据集中存在大量未知特征的情况、处理高维数据相对较快、能够估计哪个特征在分类中更重要、可以并行处理的优点。在此处使用随机森林模型较为快捷，十分合适。
 \subsection{Weaknesses}
+随机森林模型由于是黑盒，其不可解释的地方较多，在噪声过大的地方容易过拟合。在此处由于数据量较少，使用该模型很可能过拟合，做出错误的预测也有一定的可能性。
 \section{Conclusion}
-Hello world!test123
+通过随机森林模型我们得出了
 \section{Appendix}
 \subsection{7-dimension Scores of the SDEs}
 P.A. = Popularity and Accessibility \ G.E. = Gender Equality \ S. = Sustainability

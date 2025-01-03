@@ -58,7 +58,7 @@ continuously been in the Olympic programme since the 1988 games or earlier. The
 supplied data provides information about which sports and
 disciplines, and number of events, have appeared in each Olympics since their modern
 formation. Be sure to highlight the general applicability of your model by choosing a
-diverse collection of SDEs to evaluate. Discuss how your model affirms these SDEs’
+diverse collection of SDEs to evaluate. Discuss how your model affirms these SDEs'
 current Olympic status.
 \item[$\bullet$]Identify three SDEs that could be new additions or reintroductions for the 2032 Olympics
 in Brisbane. Make sure to identify which SDE should be considered first, second and
@@ -299,16 +299,6 @@ r2 = r2_score(y_test, y_pred)
 print(f"Mean Squared Error: {mse}")
 print(f"R-squared: {r2}")
 
-# 6. Model saving
-joblib.dump(model, "regression_model.pkl")
-print(model)
-df = pd.read_excel("data 2.xlsx")
-for i in range(len(ori_factors)):
-
-    r = model.predict(np.array([ori_factors[i]]))[0]
-    print(r)
-    df.iloc[i,21] = r
-df.to_excel("data 2.xlsx", index=False)
     \end{minted}
 \end{listing}
 \end{document}  

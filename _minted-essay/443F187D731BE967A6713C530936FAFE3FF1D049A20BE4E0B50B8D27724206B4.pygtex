@@ -1,0 +1,56 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{import} \PYG{n+nn}{pandas} \PYG{k}{as} \PYG{n+nn}{pd}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.model\PYGZus{}selection} \PYG{k+kn}{import} \PYG{n}{train\PYGZus{}test\PYGZus{}split}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.ensemble} \PYG{k+kn}{import} \PYG{n}{RandomForestRegressor}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.metrics} \PYG{k+kn}{import} \PYG{n}{mean\PYGZus{}squared\PYGZus{}error}\PYG{p}{,} \PYG{n}{r2\PYGZus{}score}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.preprocessing} \PYG{k+kn}{import} \PYG{n}{StandardScaler}
+\PYG{k+kn}{import} \PYG{n+nn}{joblib}
+\PYG{n}{target} \PYG{o}{=} \PYG{p}{[]}
+\PYG{n}{data} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}excel}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}C:\PYGZbs{}Users\PYGZbs{}26446\PYGZbs{}WPSDrive\PYGZbs{}29182127\PYGZbs{}WPS\PYGZbs{}data.xlsx\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{factors} \PYG{o}{=} \PYG{p}{[]}
+\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{31}\PYG{p}{):}
+    \PYG{n}{\PYGZus{}} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{18}\PYG{p}{):}
+        \PYG{n}{\PYGZus{}}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{data}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,} \PYG{n}{j}\PYG{p}{])}
+    \PYG{n}{factors}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{\PYGZus{}}\PYG{o}{.}\PYG{n}{copy}\PYG{p}{())}
+    \PYG{n}{target}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{data}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,} \PYG{l+m+mi}{18}\PYG{p}{])}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{factors}\PYG{p}{)}
+\PYG{n}{ori\PYGZus{}factors} \PYG{o}{=} \PYG{n}{factors}\PYG{o}{.}\PYG{n}{copy}\PYG{p}{()}
+\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{factors}\PYG{p}{)):}
+    \PYG{n}{factors}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{factors}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{+}\PYG{p}{[}\PYG{n}{target}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]]}
+
+\PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{seed}\PYG{p}{(}\PYG{l+m+mi}{42}\PYG{p}{)}
+\PYG{n}{data} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{factors}\PYG{p}{,} \PYG{n}{columns}\PYG{o}{=}\PYG{p}{[}\PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}factor\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{7}\PYG{p}{)]} \PYG{o}{+} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}target\PYGZsq{}}\PYG{p}{])}
+
+\PYG{n}{X} \PYG{o}{=} \PYG{n}{data}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[:,} \PYG{p}{:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}
+\PYG{n}{y} \PYG{o}{=} \PYG{n}{data}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[:,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}
+
+\PYG{c+c1}{\PYGZsh{} 2. Data dividing}
+\PYG{n}{X\PYGZus{}train}\PYG{p}{,} \PYG{n}{X\PYGZus{}test}\PYG{p}{,} \PYG{n}{y\PYGZus{}train}\PYG{p}{,} \PYG{n}{y\PYGZus{}test} \PYG{o}{=} \PYG{n}{train\PYGZus{}test\PYGZus{}split}\PYG{p}{(}\PYG{n}{X}\PYG{p}{,} \PYG{n}{y}\PYG{p}{,} \PYG{n}{test\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mf}{0.2}\PYG{p}{,} \PYG{n}{random\PYGZus{}state}\PYG{o}{=}\PYG{l+m+mi}{42}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} 3. Model chosen}
+\PYG{n}{model} \PYG{o}{=} \PYG{n}{RandomForestRegressor}\PYG{p}{(}\PYG{n}{n\PYGZus{}estimators}\PYG{o}{=}\PYG{l+m+mi}{100}\PYG{p}{,} \PYG{n}{random\PYGZus{}state}\PYG{o}{=}\PYG{l+m+mi}{42}\PYG{p}{)}
+\PYG{n}{model}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{X\PYGZus{}train}\PYG{p}{,} \PYG{n}{y\PYGZus{}train}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} 4. Prediction}
+\PYG{n}{y\PYGZus{}pred} \PYG{o}{=} \PYG{n}{model}\PYG{o}{.}\PYG{n}{predict}\PYG{p}{(}\PYG{n}{X\PYGZus{}test}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} 5. Evaluation}
+\PYG{n}{mse} \PYG{o}{=} \PYG{n}{mean\PYGZus{}squared\PYGZus{}error}\PYG{p}{(}\PYG{n}{y\PYGZus{}test}\PYG{p}{,} \PYG{n}{y\PYGZus{}pred}\PYG{p}{)}
+\PYG{n}{r2} \PYG{o}{=} \PYG{n}{r2\PYGZus{}score}\PYG{p}{(}\PYG{n}{y\PYGZus{}test}\PYG{p}{,} \PYG{n}{y\PYGZus{}pred}\PYG{p}{)}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Mean Squared Error: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{mse}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}R\PYGZhy{}squared: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{r2}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} 6. Model saving}
+\PYG{n}{joblib}\PYG{o}{.}\PYG{n}{dump}\PYG{p}{(}\PYG{n}{model}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}regression\PYGZus{}model.pkl\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{model}\PYG{p}{)}
+\PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}excel}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}C:\PYGZbs{}Users\PYGZbs{}26446\PYGZbs{}WPSDrive\PYGZbs{}29182127\PYGZbs{}WPS\PYGZbs{}data 2.xlsx\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{ori\PYGZus{}factors}\PYG{p}{)):}
+
+    \PYG{n}{r} \PYG{o}{=} \PYG{n}{model}\PYG{o}{.}\PYG{n}{predict}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{([}\PYG{n}{ori\PYGZus{}factors}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]]))[}\PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{r}\PYG{p}{)}
+    \PYG{n}{df}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{21}\PYG{p}{]} \PYG{o}{=} \PYG{n}{r}
+\PYG{n}{df}\PYG{o}{.}\PYG{n}{to\PYGZus{}excel}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}C:\PYGZbs{}Users\PYGZbs{}26446\PYGZbs{}WPSDrive\PYGZbs{}29182127\PYGZbs{}WPS\PYGZbs{}data 2.xlsx\PYGZdq{}}\PYG{p}{,} \PYG{n}{index}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}
+\end{Verbatim}

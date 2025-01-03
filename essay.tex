@@ -1,6 +1,7 @@
 \documentclass[a4paper]{article}
 \usepackage[margin=1in]{geometry} % 设置边距，符合Word设定
 %\usepackage{ctex}
+\newcommand{\keywords}[1]{\par\noindent\textbf{Keywords:} #1}
 \usepackage{graphicx} %插入图片的宏包
 \usepackage{float} %设置图片浮动位置的宏包
 \usepackage{subfigure} %插入多图时用子图显示的宏包
@@ -17,14 +18,11 @@
 \usepackage{algorithmic} %for coding display
 
 
-\title{Olympic Project Evaluation Model: Application of Random Forest Regression in Sports Decision Making.}
+\title{\textbf{Olympic Project Evaluation Model: Application of Random Forest Regression in Sports Decision Making.}}
 \author{ Guo Runheng,\ Yang Zicheng,\ Qiu Xinyang}
 \date{\today}
-
 \begin{document}
     \maketitle
-
-
 \begin{abstract}
     % 奥运会项目调整是奥运会持续发展的重要方式，对奥运会项目的调整有利于提升奥运会的社会与时代价值。本文主要采用随机森林回归模型，对未来奥运会项目的增减进行了评估与预测。
     % \par 针对任务1，我们根据IOC标准，通过在网上查找多方面的资料并参考权威数据，对这些运动的受欢迎度和可达性、性别平等性、可持续性、包容性、相关性与创新性、安全与公平竞争性、新建更多项目的可能性共七个维度因素，在0-1之间进行了评分。
@@ -35,6 +33,9 @@
     \par For Task 2, we analyzed the table of event numbers from 1948 to 2020 and used the Python language for data visualization. Then, we performed a linear fit to analyze the regularity of the changes in the number of events from 1948 to 2020. Subsequently, we trained a random forest regression model using the seven dimensions as independent variables and the slope of the linear fit as the dependent variable.
     \par For Task 3, we utilized the well-trained random forest regression model to identify three SDEs that may be added or reintroduced at the 2032 Brisbane Olympic Games and determined their priority recommendation order.
 \end{abstract}
+\keywords{Olympics, Random Forest Regression, IOC criteria}
+
+
 \tableofcontents
 \section{Introduction}
 
@@ -91,11 +92,22 @@ To simplify the problem, we make the following basic assumptions, each of which 
 properly justified.
 \begin{itemize}
 \item[$\bullet$]Assumption 1: According to online information and authoritative data, 
-we scored the 6 dimensions of 33 projects from 0~1 (1 means the best), and gave each project a weight for the possibility of creating more events. See Appendix for details.
+we scored the 6 dimensions of 33 projects from 0 to 1 (1 means the best), and gave each project a weight for the possibility of creating more events. See Appendix for details.
 \item[$\bullet$]Assumption 2:  No extreme events will occurr, such as war or natural disasters.
 \end{itemize}
 \section{Abbreviation and Definitions}
-Olympics, Random Forest Regression
+\begin{table}[h]
+    \begin{tabular}{l|l}
+    \hline
+    \\
+    H(X) & Entropy in a node                              \\
+    p    & Probability of different class in current node \\
+    G(D) & Entropy gain                                   \\
+    X    & Upper level                                    \\
+    D    & Current Level                                  \\ 
+    \\\hline
+    \end{tabular}
+    \end{table}
 \section{The Evaluate Model}
 
 \subsection{Random Forest Regression}
@@ -177,7 +189,7 @@ criteria: \textbf{Popularity and Accessibility}, \textbf{Gender Equity},  \textb
 \subsection{Appliance}
 By using random forest model, we analyse the slope of the lines which we build from the data of the number of SDEs and its link between the six criteria, then train them into a model. By using this model, we can use the output to predict the trend of the any sport by inputing datas of the six criteria.
 \subsection{Result}
-We get a score from the model of each of the sport by using the model, it's shown that Aquatics is the highest one, while Athletics is the second. They will be surely involved by Olympic Games in 2036. Other sport which is higher than 0.5 score has high possibility of being involved.
+We get a score from the model of each of the sport by using the model, it's shown that Aquatics is the highest one, while Athletics is the second. They will be possibly increased in 2036 Olympics. Other sport which is higher than 0.5 score has high possibility of being increase. Inputing score of six criteria of a new sport, we can know if the sport will be involved.
 %\subsection{Efficiency and Robustness}
 % \section{Sensitivity Analysis}
 \section{Strengths and Weaknesses}
@@ -189,6 +201,7 @@ Random forest models, being black boxes, have many inexplicable aspects and are 
 \section{Conclusion}
 In this paper, we first do a significant pre-processing about the trend of SDEs, then we try to evaluate the score of the six criteria of each sports, some of them are given by AI. Model is trained by analysing the data of six criteria and the slope of the trend of each sports, using random forest regression. By using the model, we finally get a persuasive score of SDEs. The scores can briefly point out which SDEs is about to removed and which one can be surely involved.
 \section{Appendix}
+
 \subsection{7-dimension Scores of the SDEs}
 P.A. = Popularity and Accessibility \ G.E. = Gender Equality \ S. = Sustainability
 
@@ -236,4 +249,64 @@ M. = the possibility of creating More events
     Roque                                       & \multicolumn{1}{l|}{0.7}      & \multicolumn{1}{l|}{0.8}      & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.9}      & 0                       & 0.3                                                    &  &  \\ \cline{1-9}
     \end{tabular}
     \end{table*}
+    \\[30em]
+    \subsection{Code}
+\begin{listing}[h]\caption{Code}
+    \begin{minted}[frame=single, linenos=false]{python3}
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.preprocessing import StandardScaler
+import joblib
+target = []
+data = pd.read_excel(r"C:\Users\26446\WPSDrive\29182127\WPS\data.xlsx")
+factors = []
+for i in range(0,31):
+    _ = []
+    for j in range(11,18):
+        _.append(data.iloc[i, j])
+    factors.append(_.copy())
+    target.append(data.iloc[i, 18])
+print(factors)
+ori_factors = factors.copy()
+for i in range(len(factors)):
+    factors[i] = factors[i]+[target[i]]
+
+np.random.seed(42)
+data = pd.DataFrame(factors, columns=[f'factor_{i+1}' for i in range(7)] + ['target'])
+
+X = data.iloc[:, :-1]  
+y = data.iloc[:, -1]   
+
+# 2. Data dividing
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# 3. Model chosen
+model = RandomForestRegressor(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+# 4. Prediction
+y_pred = model.predict(X_test)
+
+# 5. Evaluation
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print(f"Mean Squared Error: {mse}")
+print(f"R-squared: {r2}")
+
+# 6. Model saving
+joblib.dump(model, "regression_model.pkl")
+print(model)
+df = pd.read_excel(r"C:\Users\26446\WPSDrive\29182127\WPS\data 2.xlsx")
+for i in range(len(ori_factors)):
+
+    r = model.predict(np.array([ori_factors[i]]))[0]
+    print(r)
+    df.iloc[i,21] = r
+df.to_excel(r"C:\Users\26446\WPSDrive\29182127\WPS\data 2.xlsx", index=False)
+    \end{minted}
+\end{listing}
 \end{document}  

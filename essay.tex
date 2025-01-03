@@ -33,7 +33,7 @@
     \par we analyzed the table of event numbers from 1948 to 2020 and used the Python language for data visualization. Then, we performed a linear fit to analyze the regularity of the changes in the number of events from 1948 to 2020. Subsequently, we trained a random forest regression model using the seven dimensions as independent variables and the slope of the linear fit as the dependent variable.
     \par we utilized the well-trained random forest regression model to identify three SDEs that may be added or reintroduced at the 2032 Brisbane Olympic Games and determined their priority recommendation order.
 \end{abstract}
-\keywords{Olympics, Random Forest Regression, IOC criteria}
+\keywords{Olympics, SDEs analysis, IOC criteria, Random Forest Regression}
 
 
 \tableofcontents
@@ -58,7 +58,7 @@ continuously been in the Olympic programme since the 1988 games or earlier. The
 supplied data provides information about which sports and
 disciplines, and number of events, have appeared in each Olympics since their modern
 formation. Be sure to highlight the general applicability of your model by choosing a
-diverse collection of SDEs to evaluate. Discuss how your model affirms these SDEs’
+diverse collection of SDEs to evaluate. Discuss how your model affirms these SDEs'
 current Olympic status.
 \item[$\bullet$]Identify three SDEs that could be new additions or reintroductions for the 2032 Olympics
 in Brisbane. Make sure to identify which SDE should be considered first, second and
@@ -299,16 +299,6 @@ r2 = r2_score(y_test, y_pred)
 print(f"Mean Squared Error: {mse}")
 print(f"R-squared: {r2}")
 
-# 6. Model saving
-joblib.dump(model, "regression_model.pkl")
-print(model)
-df = pd.read_excel("data 2.xlsx")
-for i in range(len(ori_factors)):
-
-    r = model.predict(np.array([ori_factors[i]]))[0]
-    print(r)
-    df.iloc[i,21] = r
-df.to_excel("data 2.xlsx", index=False)
     \end{minted}
 \end{listing}
 \end{document}  

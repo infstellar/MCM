@@ -1,6 +1,6 @@
 \documentclass[a4paper]{article}
 \usepackage[margin=1in]{geometry} % 设置边距，符合Word设定
-\usepackage{ctex}
+%\usepackage{ctex}
 \usepackage{graphicx} %插入图片的宏包
 \usepackage{float} %设置图片浮动位置的宏包
 \usepackage{subfigure} %插入多图时用子图显示的宏包
@@ -17,7 +17,7 @@
 \usepackage{algorithmic} %for coding display
 
 
-\title{奥运会项目评估模型：随机森林回归在体育决策中的应用}
+\title{Olympic Project Evaluation Model: Application of Random Forest Regression in Sports Decision Making.}
 \author{ Guo Runheng,\ Yang Zicheng,\ Qiu Xinyang}
 \date{\today}
 
@@ -40,8 +40,11 @@
 
 \subsection{Background}  
 The adjustment of Olympic SDEs plays a vital role in the development of the Olympic Games, allowing the Olympics to keep pace with the social and contemporary needs. Data shows trend of SDEs' changes, while IOC also gives its criteria for sports inclution. To better evaluate SDE's addition and reduction, we need to figure out inner relationship between IOC criteria and SDE's changes.
-
-（来两张图吧，别人这段都有图表的,参照《2021年美赛特等奖原版论文集》）
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=14cm]{graph 2.png}
+    \caption{Olympics}
+\end{figure}
 \subsection{Restatement of the Problems}
 \begin{itemize}
 \item[$\bullet$]List and describe the various factors your team identifies that need to be
@@ -98,24 +101,29 @@ Olympics, Random Forest Regression
 \subsection{Random Forest Regression}
 \subsubsection{Introduction}
 %TODO: 随机森林回归的定义
-
-我们以七个维度和作为自变量，线性拟合的斜率作为因变量，训练了一个随机森林回归模型。随机森林模型是一种基于决策树的模型，其本身是多个决策树并行的训练方式，有效地降低了训练的时间地同时带来更加精确的数据模型。
+We used seven dimensions as independent variables and the slope of linear fitting as the dependent variable to train a random forest regression model. The random forest model is a decision tree-based model, which is trained in parallel using multiple decision trees, effectively reducing training time while providing a more accurate data model.
+%我们以七个维度和作为自变量，线性拟合的斜率作为因变量，训练了一个随机森林回归模型。随机森林模型是一种基于决策树的模型，其本身是多个决策树并行的训练方式，有效地降低了训练的时间地同时带来更加精确的数据模型。
 \subsubsection{Principle}
-随机森林模型是基于决策树的，此处首先解释决策树选择最优决策的方法。此处引入熵的概念。\\
-决策树是一种二叉树，每一层只做出一种选择，我们可以通过熵来衡量每一个父节点的不确定性。熵的计算公式如下：\\
+%随机森林模型是基于决策树的，此处首先解释决策树选择最优决策的方法。此处引入熵的概念。
+The random forest model is based on decision trees, and here we first explain the method by which decision trees select the optimal decision. The concept of entropy is introduced at this point.\\
+%决策树是一种二叉树，每一层只做出一种选择，我们可以通过熵来衡量每一个父节点的不确定性。熵的计算公式如下：
+Decision trees are a type of binary tree, where each level makes only one choice. We can measure the uncertainty of each parent node using entropy. The formula for calculating entropy is as follows:\\
 $$H(X)= -\sum_{k=1}^N p_k log_2(p_k)$$
-除去整一棵决策树的祖先，和最小的子节点，我们能算出每一个节点的熵的增益：
+%除去整一棵决策树的根节点，和最小的子节点，我们能算出每一个节点的熵的增益：
+Excluding the root node and the smallest child nodes of an entire decision tree, we can calculate the entropy gain for each node:
 $$G(D)= H(X)-\sum_{v=1}^V \frac {\left|D^v\right|}{\left|D\right|} H(D)^v$$
-其中G(D)表示熵的增益，H(X)表示上一层的熵，后面是当前一层的熵的总和。\\
-决策树的整体流程如下：\\
-(1) 过滤所有可能的决策条件。\\
-(2) 选择子节点熵最小的决策条件。\\
+%其中G(D)表示熵的增益，H(X)表示上一层的熵，后面是当前一层的熵的总和。
+In which G(D) denotes the gain in entropy, H(X) denotes the entropy of the previous layer, and what follows is the sum of the entropies of the current layer.\\
+%决策树的整体流程如下：
+The overall process of the decision tree is as follows:\\
+(1) Filter all possible decision conditions.\\%过滤所有可能的决策条件。
+(2) Select the decision condition with the minimum entropy of the child nodes.\\%选择子节点熵最小的决策条件。
 (3) Repeat step1 and step2 until it reach the maximumpredefined depth or all the elements in a single lead node belong to one class.\\[1em]
-接着来讲随机森林模型:\\[0.5em]
-\qquad 1.对数据进行有放回的随机抽样，创建多个训练数据的子集，用于每个决策树的训练。\\[0.5em]
-\qquad 2.对于每棵决策树的每个节点随机选择特征子集，基于选定的特征进行分裂。\\[0.5em]
-\qquad 3.对每个子集使用随机特征子集创建一棵决策树。将决策树进行并行训练处理。\\[0.5em]
-\qquad 4.将新数据输入到训练好的模型之中，在每一棵决策树中都会得到一个预测结果，通过计算预测结果的平均值便可得到最终的最测结果。\\[0.5em]
+Next, let's talk about the random forest model:\\[0.5em]%接着来讲随机森林模型:
+\qquad 1. Perform random sampling with replacement on the data to create multiple subsets of training data for the training of each decision tree.\\[0.5em]%对数据进行有放回的随机抽样，创建多个训练数据的子集，用于每个决策树的训练。
+\qquad 2. For each node of every decision tree, randomly select a subset of features and perform splits based on the chosen features.\\[0.5em]%对于每棵决策树的每个节点随机选择特征子集，基于选定的特征进行分裂。
+\qquad 3. Create a decision tree for each subset using a random subset of features. Train the decision trees in parallel.\\[0.5em]对%每个子集使用随机特征子集创建一棵决策树。将决策树进行并行训练处理。
+\qquad 4. Input new data into the trained model. Each decision tree will produce a prediction. The final prediction is obtained by calculating the average of these predictions.\\[0.5em]%将新数据输入到训练好的模型之中，在每一棵决策树中都会得到一个预测结果，通过计算预测结果的平均值便可得到最终的最测结果。
 \subsubsection{Implementation}
 We used the random forest fitting algorithm from the sklearn module of python.\\
 % Code
@@ -126,7 +134,7 @@ We used the random forest fitting algorithm from the sklearn module of python.\\
     \end{minted} 
 \end{listing}
 \\[0.6em]
-构建了模型后，我们便能得到预测的值：\\
+After building the model, we can obtain the predicted values:\\
 \begin{listing}[h]\caption{Prediction}\label{code:pppd}
     \begin{minted}[frame=single,linenos=flase]{python3}
         y_pred = model.predict(X_test)
@@ -157,29 +165,29 @@ We used this model to predict data outside of the training and test sets
     \end{tabular}
     \end{table}
 \fi
-结果表明，我们的模型在预测项目数量的增长上取得了成功。
+As the results indicate, our model has been successful in predicting the increase in the number of projects.
+%结果表明，我们的模型在预测项目数量的增长上取得了成功。
 
 
 
-\section{对SDE项目的预测}
-我们对某个SDE项目进行了评分，输入我们的模型，得到了如下结果
-
-我们认为 它的增长是xxx
+\section{Prediction for SDEs Projects}
 \subsection{Background of This Problem}
 To determine whether to play or not to play, IOC’s Olympic Programme Commission has developed a set of 
 criteria: \textbf{Popularity and Accessibility}, \textbf{Gender Equity},  \textbf{Sustainability}, \textbf{Inclusivity}, \textbf{Relevance and Innovation}, \textbf{Safety and Fair Play}. We use these criteria to evaluate which SDEs should be added or removed.
 \subsection{Appliance}
 By using random forest model, we analyse the slope of the lines which we build from the data of the number of SDEs and its link between the six criteria, then train them into a model. By using this model, we can use the output to predict the trend of the any sport by inputing datas of the six criteria.
-\subsection{Efficiency and Robustness}
+\subsection{Result}
+We get a score from the model of each of the sport by using the model, it's shown that Aquatics is the highest one, while Athletics is the second. They will be surely involved by Olympic Games in 2036. Other sport which is higher than 0.5 score has high possibility of being involved.
+%\subsection{Efficiency and Robustness}
 % \section{Sensitivity Analysis}
 \section{Strengths and Weaknesses}
 
 \subsection{Strengths}
-该模型具有随机性强、不易overfit、对异常点outlier不敏感、适用于数据集中存在大量未知特征的情况、处理高维数据相对较快、能够估计哪个特征在分类中更重要、可以并行处理的优点。在此处使用随机森林模型较为快捷，十分合适。
+The model has the advantages of strong randomness, being less prone to overfitting, not being sensitive to outliers, being suitable for situations where there are many unknown features in the dataset, processing high-dimensional data relatively quickly, being able to estimate which features are more important in classification, and being able to handle parallel processing. Using a random forest model here is quite fast and very appropriate.%该模型具有随机性强、不易overfit、对异常点outlier不敏感、适用于数据集中存在大量未知特征的情况、处理高维数据相对较快、能够估计哪个特征在分类中更重要、可以并行处理的优点。在此处使用随机森林模型较为快捷，十分合适。
 \subsection{Weaknesses}
-随机森林模型由于是黑盒，其不可解释的地方较多，在噪声过大的地方容易过拟合。在此处由于数据量较少，使用该模型很可能过拟合，做出错误的预测也有一定的可能性。
+Random forest models, being black boxes, have many inexplicable aspects and are prone to overfitting in places with excessive noise. Given the limited amount of data here, there is a high likelihood of overfitting when using this model, and there is a certain possibility of making incorrect predictions.%随机森林模型由于是黑盒，其不可解释的地方较多，在噪声过大的地方容易过拟合。在此处由于数据量较少，使用该模型很可能过拟合，做出错误的预测也有一定的可能性。
 \section{Conclusion}
-通过随机森林模型我们得出了
+In this paper, we first do a significant pre-processing about the trend of SDEs, then we try to evaluate the score of the six criteria of each sports, some of them are given by AI. Model is trained by analysing the data of six criteria and the slope of the trend of each sports, using random forest regression. By using the model, we finally get a persuasive score of SDEs. The scores can briefly point out which SDEs is about to removed and which one can be surely involved.
 \section{Appendix}
 \subsection{7-dimension Scores of the SDEs}
 P.A. = Popularity and Accessibility \ G.E. = Gender Equality \ S. = Sustainability

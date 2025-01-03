@@ -261,7 +261,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.preprocessing import StandardScaler
 import joblib
 target = []
-data = pd.read_excel(r"C:\Users\26446\WPSDrive\29182127\WPS\data.xlsx")
+data = pd.read_excel("data.xlsx")
 factors = []
 for i in range(0,31):
     _ = []
@@ -300,13 +300,13 @@ print(f"R-squared: {r2}")
 # 6. Model saving
 joblib.dump(model, "regression_model.pkl")
 print(model)
-df = pd.read_excel(r"C:\Users\26446\WPSDrive\29182127\WPS\data 2.xlsx")
+df = pd.read_excel("data 2.xlsx")
 for i in range(len(ori_factors)):
 
     r = model.predict(np.array([ori_factors[i]]))[0]
     print(r)
     df.iloc[i,21] = r
-df.to_excel(r"C:\Users\26446\WPSDrive\29182127\WPS\data 2.xlsx", index=False)
+df.to_excel("data 2.xlsx", index=False)
     \end{minted}
 \end{listing}
 \end{document}  

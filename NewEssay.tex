@@ -29,7 +29,7 @@
  \usepackage{subcaption}
  \usepackage{cleveref} %可以调用
  \usepackage{tcolorbox}
- 
+ \usepackage{amsmath}
  \tcbuselibrary{most}
  \newtcolorbox{mybox}[2][]{colbacktitle=red!10!white, colback=blue!10!white,coltitle=red!70!black, title={#2},fonttitle=\bfseries,#1}
  \graphicspath{{img/}}          % 此处{img/}为相对路径，注意加上“/”
@@ -295,7 +295,20 @@ Here, by substituting the data, we obtain the estimated glacier melting amount a
 $$CS=c1\cdot CIS+c2\cdot CTS$$
 $$LS=l1\cdot LinS+l2\cdot LIS$$
 Now we can get exact numbers of CS and LS, to make further optimization, we will use NSGA-II algorithm to get a Pareto solution.
- \subsection{NSGA-II }
+ \subsection{NSGA-II Processing}
+ NSGA-II是一种用于解决多目标优化问题的遗传算法，它通过迭代来找到Pareto最优解。Pareto最优解可能不是唯一解，而是所有最优解的解集。之所以会产生pareto最优解，是因为从问题中产生的答案相互是非支配的。\\
+ 该算法的步骤如下：\\
+ 1.初始化种群：随机生成包含多个个体的初始种群。\\
+ 2.计算适应度：计算每个个体的目标函数空间中的适应的\\
+ 3.非支配排序：将种群中的个体划分为多个前沿，标识个体占据pareto前沿上的不同位置。\\
+ 4.拥挤距离的计算：计算拥挤距离以量度个体在目标空间的密度。\\
+ 5.选择操作：通过二元选择操作，从种群中随机选择两个个体，选出具有更高非支配级别的个体。\\
+ 6.交叉变异操作：将筛选出来的个体通过交叉和变异的操作生成父代种群，并将父代和子代合并为一个更大的候选种群。\\
+ 7.迭代：将候选种群重新进行以上步骤，直到满足停止条件。\\
+ 此处我们构建多目标函数，并且将冰川消融引起的游客减少同时作为约束条件：
+ $$minf(C)=\{-CS(C),-LS(C)\}$$
+ $$=
+ 13670.13\leq C\leq15211.08$$
  
  
  

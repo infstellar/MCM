@@ -95,7 +95,7 @@ To demonstrate our workflow visually, the flow chart is shown.
  \begin{figure}[h]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
  
  \centering  %图表居中
- \includegraphics[width=.9\textwidth]{Flow_Chart.png} %图片的名称或者路径之中有空格会出问题 
+ \includegraphics[width=.9\textwidth]{chart2.png} %图片的名称或者路径之中有空格会出问题 
  \caption{Flow Chart of Our Work (From Team \# 2511654)} % 图片标题                 
  \label{fig1}%交互引用
  \end{figure}
@@ -128,19 +128,30 @@ Since there're several unacquirable data, we simplify our model by making assump
  \begin{table}[htbp]
  \begin{center}
  \caption{Notations used in this paper}
- \begin{tabular}{cl} % 第一列居中对齐、第二列居左对齐
+ \begin{tabular}{cc} % 第一列居中对齐、第二列居左对齐
  \toprule[2pt]
  \multicolumn{1}{m{4cm}}{\centering Symbol}
  &\multicolumn{1}{m{10cm}}{\centering Description }\\  %3cm 和 8cm 是列宽，根据实际需求修改
  \midrule
- $x_i$   & XXXXX \\
- $y_i$   & YYYYYY \\
+ $x$   &         Tax rate \\
+ $T$   &         Tax \\
+ $C$   &         Tourists count\\
+ $e$   &         Consumption per tourist \\
+ $TTI$ &         Tax used to maintain infrastructures\\
+ $CDI$ &         Each tourist s damagement to infrastructures\\
+ $CTS$ &         Tourist\textquotesingle s satisfaction affected by tourist count\\
+ $CIS$ &         Tourist\textquotesingle s satisfaction influenced by infrastructures\\
+ $LinS$ &        The Locals\textquotesingle satisfaction affected by income\\
+ $LIS$ &         The Locals\textquotesingle satisfaction affected by infrastructures\\
+ $LS$ &          Satisfaction of the locals\\
+ $CS$ &          Satisfaction of the tourists\\
  \bottomrule[2pt]
  \end{tabular}	\label{tab1} % 交互引用 
-  \begin{tablenotes}
+  \iffalse\begin{tablenotes}
          \footnotesize
          \item[*] *\href{https://www.caam.rice.edu/~heinken/latex/symbols.pdf}{ \LaTeX~Mathematical symbols collected by Prof. M. Heinkenschloss}. %此处加入注释*信息
        \end{tablenotes}
+       \fi
  \end{center}
  \end{table} 
  \vspace{-1cm} 
@@ -155,7 +166,7 @@ Since there're several unacquirable data, we simplify our model by making assump
  
     \centering  %图表居中
     \includegraphics[width=1.2\textwidth]{chart1.png} %图片的名称或者路径之中有空格会出问题 
-    \caption{Model of Tourism and Attractions} % 图片标题                 
+    \caption{Causal Model of Tourism and Attractions} % 图片标题                 
     \label{fig1}%交互引用
     \end{figure}
  
@@ -165,9 +176,9 @@ Since there're several unacquirable data, we simplify our model by making assump
      \setlength{\topsep}{2ex} %列表到上下文的垂直距离
      \setlength{\itemsep}{1ex} %条目间距
  \item [\textbf{Explanations:}] 
-        \item Population: The population of tourists. When population up to a limited point, it will reduce the satisfaction of tourists since its overcrowded experience.
+        \item Tourist count: The number of tourists. When the number up to a limited point, it will reduce the satisfaction of tourists since its overcrowded experience.
         \item Infrastructures and Environment: The state of infrastructures and the living condition. Overtourism may lead to a considerable deterioration on infrastructures in Juneau and damage on the environment.
-        \item Expenditure: The expenditure of tourists, which can be divided into incomes of the locals and taxes. Part of the tax can be used to preserve infrastructures.
+        \item Expenditure: The expenditure of tourists, which can be divided into incomes of the locals and taxes. Part of the tax can be used to maintain infrastructures.
         \item AHR: Anthropogenic heat release.
         \item "+": Positive correlation.
         \item "-": Negative correlation.\\
@@ -179,8 +190,22 @@ Since there're several unacquirable data, we simplify our model by making assump
     \setlength{\parsep}{0ex} %段落间距
 \setlength{\topsep}{2ex} %列表到上下文的垂直距离
 \setlength{\itemsep}{1ex} %条目间距
-\item 税跟人的数学模型\\
-旅游税的增加在一定程度上会影响游客的数量，通过
+\item 税跟游客数量的数学模型\\
+旅游税的增加在一定程度上会影响游客的数量。从文献\cite{taxandtour}中我们可以得出旅游税每增加 10\%旅游人数就减少 5.4\%的结论。利用该结论并结合文献\cite{pop}中的数据，我们可以建立数学模型：\\
+$$C=1670000 \times 0.946^{10x-48}$$\\
+其中C为游客数量，x为税率。从途径上，增加旅游税可以在一定程度上限制游客的人数，在控制游客数量的时候可以考虑增加税款，但是由于模型相对简陋，对于过高或者过低的税率的情形没有作出很好的预测，所以在这里限制旅游税率的范围：$$4\% \leq x  \leq 15\%$$
+这里我们可以得到一个可观的曲线图：
+\begin{figure}[htbp]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
+ 
+    \centering  %图表居中
+    \includegraphics[width=1\textwidth]{model1.png} %图片的名称或者路径之中有空格会出问题 
+    \caption{Relationship between Tourist Count and Tax Rate} % 图片标题                 
+    \label{fig1}%交互引用
+    \end{figure}
+\item 游客满意度的数学模型\\
+
+
+
 \end{enumerate}
  \section{A causal model of the impact of tourist numbers on satisfaction}
  \section{Multi-Objective Optimization Model}
@@ -268,9 +293,17 @@ Since there're several unacquirable data, we simplify our model by making assump
  \clearpage   %另起一页继续写。这时,你最好使用“\clearpage” 
  
  \begin{thebibliography}{99}
-    \bibitem{V2020}
-    Adedoyin, F. F., Seetaram, N., Disegna, M., Filis, G. (2023). The Effect of Tourism Taxation on International Arrivals to a Small Tourism-Dependent Economy. Journal of Travel Research, 62(1), 135-153. 
+    \bibitem{taxandtour}
+    Adedoyin, F. F., Seetaram, N., Disegna, M., \& Filis, G. (2023). The Effect of Tourism Taxation on International Arrivals to a Small Tourism-Dependent Economy. Journal of Travel Research, 62(1), 135-153. 
      
+    \bibitem{pop}
+    Formery McDowell Croup, ECONOMIC IMPACT OF JUNEAU\textquotesingle S CRUISE INDUSTRY 2023
+    {https://juneau.org/wp-content/uploads/2024/01/CBJ-Cruise-Impacts-2023-Report-1.22.24.pdf}
+
+    \bibitem{spend}
+    Juneau Tourism Survey 2023 \& Juneau Cruise Passenger Survey 2023 \& Juneau Cruise Industry Impacts 2023 Extended Slide Deck, McKINLEY RESEARCH
+    {https://www.seconference.org/wp-content/uploads/2024/02/Tourism-Panel-Heather-Haugland.pdf}
+
    %% 书籍
    \bibitem{NDZY2021}
    H. Ni, X. Dong, J. Dong, G. Yu, An Introduction to Machine Learning in Quantitative Finance, World Scientific, 2021.

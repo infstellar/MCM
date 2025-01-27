@@ -122,10 +122,10 @@ Since there're several unacquirable data, we simplify our model by making assump
  \end{itemize}
  
  Additional assumptions are made to simplify the analysis for individual sections. These assumptions will be discussed at the appropriate locations.
- 
+ \clearpage
  \section{Notations}
  Some important mathematical notations used in this paper are listed in Table \ref{tab1}. 
- \begin{table}[htbp]
+ \begin{table}[H]
  \begin{center}
  \caption{Notations used in this paper}
  \begin{tabular}{cc} % 第一列居中对齐、第二列居左对齐
@@ -228,7 +228,7 @@ $$TTI=
 \end{cases}
 $$
 图线如下：
-\begin{figure}[htbp]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
+\begin{figure}[H]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
  
     \centering  %图表居中
     \includegraphics[width=0.9\textwidth]{tax2inf.png} %图片的名称或者路径之中有空格会出问题 
@@ -237,14 +237,13 @@ $$
     \end{figure}
 模型展示了税收变多到了一定程度时，在基建上的投入比例会有所降低。
 如此，我们可以获得IS的图线：
-\begin{figure}[h]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
+\begin{figure}[H]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
  
     \centering  %图表居中
     \includegraphics[width=0.9\textwidth]{IS.png} %图片的名称或者路径之中有空格会出问题 
     \caption{Graph of IS} % 图片标题                 
     \label{fig1}%交互引用
     \end{figure}
-\clearpage
 F 是将IS转化为satisfaction的函数，对于本地人和游客而言都是相同的。我们定义satisfaction为一种评判的指标，其值域范围为-100到100。
 $$
 CIS(LIS)=
@@ -253,6 +252,9 @@ CIS(LIS)=
     \log_{1.01}{\frac{x-10}{40000}}-470, &11624010\geq IS \geq 4200000
 \end{cases}
 $$
+Finally, we get a function:
+$$CS=U(CIS,CTS)$$
+\item 本地人满意度的数学模型
 \end{enumerate}
  \section{A causal model of the impact of tourist numbers on satisfaction}
  \section{Multi-Objective Optimization Model}

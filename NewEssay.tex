@@ -352,6 +352,11 @@ Here, we construct a multi-objective function and consider the reduction in tour
     \subsection{The reduction of environmental protection costs}
     Investing in environmental protection publicity advertisements may be beneficial for preserving the tourism environment. Based on the information provided, we assume that the government allocates a portion of its funds for publicity purposes, thereby reducing the costs needed to maintain the environment for each tourist. The results indicate that with just a 4\% increase in the ferry tax, the sustainable limit for the number of tourists rises to 16,620, showing that investing in environmental protection publicity advertisements has a significantly positive effect compared to direct investment in environmental protection, especially under moderate-scale promotion. Therefore, we recommend that the government invest in advertising campaigns to encourage tourists to protect the environment.
  
+\section{模型迁移}
+对于其他的地区，我们需要考虑用新的景区数据来进行约束。在这里我们定义：
+$$A=V-kC$$
+其中A是景区的吸引力，V是景区固有的价值，C依旧表示游客人数，k是描述旅游人数对景区的负面影响的常数。通过这个公式，只需要获取景区相应的数据进行计算便可得到最佳人数结果。\\
+不仅如此，对于人数较少的景区，我们可以通过降低旅游税以获得更多的游客，该模型同样适用。对于人数爆满的景区，我们建议同时采用提高税收和限制旅游人数的方式来减少游客人数，这样能实现一个动态的平衡。
  \section{Strengths and weaknesses}
  
  \subsection{Strengths}

@@ -224,7 +224,7 @@ CDI=
 $$
 CDI的图线如下：
 对于税款我们可以通过报告\cite{spend}中得到的E和x求出：
-$$T=C\times E\times x$$
+$$T=C\cdot E\cdot x$$
 根据报告中的数据以及往年对于基础设施上的支出，我们最终拟合出了TTI的函数。
 $$TTI=
 \begin{cases}
@@ -262,7 +262,7 @@ $$CS=U(CIS,CTS)$$
 \item 本地人满意度的数学模型
 同样的，我们可以将本地人的满意度(LS)分为LinS和LIS。\\
 对于Inc，我们得到下列的数学模型：
-$$Inc=C\times E\times (1-x)\times \frac{365}{10000}$$
+$$Inc=C\cdot E\cdot (1-x)\times \frac{365}{10000}$$
 其中乘上365是计算年收入，由于已知朱诺本地有30000居民，假设每一户人家都有三个人，便可得到Inc。根据资料\cite{Hap}对于收入和幸福的数据，我们拟合出了曲线：
 $$LinS=
 \begin{cases}
@@ -275,17 +275,28 @@ $$LS=U(LinS,LIS)$$
 \item 冰川消融模型\\
 从文献\cite{glac}中可以得到冰川消融速度的计算方法：
 $$THF=\frac{wTHF}{C}$$
-$$GM=\alpha \times THF$$
+$$GM=\alpha \cdot THF$$
 这里我们代入数据得到了预估冰川消融量为$2.34\times 10^{-7} m/a/person$.
 \end{enumerate}
- \section{A causal model of the impact of tourist numbers on satisfaction}
  \section{Multi-Objective Optimization Model}
+ \subsection{The Analytic Hierarchy Process}
+ The Analytic Hierarchy Process(AHP) is a kind of method which combines qualitative and quantitative methods to calculate the decision weight of complex multi-objective problem. To figure out a comprehensive solution, we use AHP to estimate LS and CS.
+ \begin{table}[H]
+    \begin{center}
+    \begin{tabular}{c|c}
+    c1 & 0.98 \\
+    c2 & 0.02 \\
+    l1 & 0.5  \\
+    l2 & 0.5 \\
+    \end{tabular}
+\end{center}
+    \end{table}
+    Then we can get LS and CS:\\
+$$CS=c1\cdot CIS+c2\cdot CTS$$
+$$LS=l1\cdot LinS+l2\cdot LIS$$
+Now we can get exact numbers of CS and LS, to make further optimization, we will use NSGA-II algorithm to get a Pareto solution.
+ \subsection{NSGA-II }
  
- You need to several sections to model, solve, evaluate and predict each task or problem. In the following, we shall review some helpful information to this respect.
- 
- \subsection{Analysis of the problem}
- 
- \subsection{Modelling}
  
  
 

@@ -1,4 +1,3 @@
-     %%
  % COMAP2024SCUT template
  % Created by Caibin Zeng, email: macbzeng@scut.edu.cn  %
  % January 8, 2025
@@ -17,6 +16,7 @@
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  % \usepackage{mathptmx}  % 这是 Times 字体，中规中矩 
  \usepackage{palatino}  % mathpazo 这palatino是 COMAP 官方杂志采用的更好看的 Palatino 字体，可替代以上的 mathptmx 宏包
+ \usepackage{ctex}
  \usepackage{pdfpages}
  \usepackage{longtable}
  \usepackage{tabu}
@@ -29,6 +29,7 @@
  \usepackage{subcaption}
  \usepackage{cleveref} %可以调用
  \usepackage{tcolorbox}
+ 
  \tcbuselibrary{most}
  \newtcolorbox{mybox}[2][]{colbacktitle=red!10!white, colback=blue!10!white,coltitle=red!70!black, title={#2},fonttitle=\bfseries,#1}
  \graphicspath{{img/}}          % 此处{img/}为相对路径，注意加上“/”
@@ -87,13 +88,11 @@ In recent years, the rapid development of the global tourism industry has brough
  \end{itemize}
 \subsection{Our Work}
  
- In the \textbf{Our Work} subsection, you should present a transition sentence, itemize your contributions and a flow chart describing your work. 
- 
- This is an example for the transition sentence:  \textit{To avoid complicated description, intuitively reflect our work process, the flow chart is shown as Figure \ref{fig1}}.
+To visually demonstrate our workflow, the flow chart is shown as Figure \ref{fig1}.
   
  
  
- \begin{figure}[htbp]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
+ \begin{figure}[h]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
  
  \centering  %图表居中
  \includegraphics[width=.9\textwidth]{Flow_Chart.png} %图片的名称或者路径之中有空格会出问题 
@@ -146,15 +145,15 @@ Since there're several unacquirable data, we simplify our model by making assump
  
  
  
- \section{A Model of the effect of Tourism and Destination}
- \subsection{Analysis of the Condition}
+ \section{Model about Tourism and Destination}
+ \subsection{关系模型的构建}
  In Juneau, the conflict between environment and the tourists can be simplified into the following model. In order to better quantify the impact of various factors on the locals and tourists, we set tourist satisfaction and local satisfaction as measuring standards.
  
  \begin{figure}[htbp]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
  
     \centering  %图表居中
     \includegraphics[width=1.2\textwidth]{chart1.png} %图片的名称或者路径之中有空格会出问题 
-    \caption{Model of } % 图片标题                 
+    \caption{Model of Tourism and Attractions} % 图片标题                 
     \label{fig1}%交互引用
     \end{figure}
  
@@ -163,517 +162,33 @@ Since there're several unacquirable data, we simplify our model by making assump
      \setlength{\parsep}{0ex} %段落间距
      \setlength{\topsep}{2ex} %列表到上下文的垂直距离
      \setlength{\itemsep}{1ex} %条目间距
- \item [\textbf{Explanations:}]
-    \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-        \setlength{\itemsep}{1ex} %条目间距
-        \item Population: The population of tourists.
+ \item [\textbf{Explanations:}] 
+        \item Population: The population of tourists. When population up to a limited point, it will reduce the satisfaction of tourists since its overcrowded experience.
         \item Infrastructures and Environment: The state of infrastructures and the living condition. Overtourism may lead to a considerable deterioration on infrastructures in Juneau and damage on the environment.
-        \item Expenditure: The expenditure of tourists, which can turn into incomes of the locals and taxes. Part of the tax can be used to preserve infrastructures.
-        \item 
-\end{itemize}
- \item [\textbf{Numerical features: }]
-
- 
-
+        \item Expenditure: The expenditure of tourists, which can be divided into incomes of the locals and taxes. Part of the tax can be used to preserve infrastructures.
+        \item AHR: Anthropogenic heat release.
+        \item "+": Positive correlation.
+        \item "-": Negative correlation.\\
+ \end{itemize}
+ \subsection{模型分析}
+ 该模型的建立参照了朱诺市相关的文献，客观分析了不同因素带来的影响。其中，figure 2里使用正负号对因素与因素之间的正相关、负相关进行了表示。在朱诺的相关调查中表明，过量的旅游人数一方面会带来本地人收入的增加，另一方面也会给基础设施带和环境带来压力。但同时，旅游人数的增加又会给政府带来相当可观的税收，可以用于维护基础设施和进行环境建设。另一方面，通过THF(tourism heat footprint)的计算方法，我们可以算出游客的平均AHR(Anthropogenic heat release)，通过AHR从而进行冰川消融的预测。冰川消融也可能会导致游客满意度的下降，而环境、基础设施的破坏会同时减少本地人和游客的满意度。因此通过使用多目标优化的模型，以旅游人数作为自变量，我们可以得到pareto最优解集，解集范围内的人数即为相对理想、能发展可持续旅游的游客人数。
+ \subsection{建立数学模型}
  \begin{enumerate}[(1)]
-         \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-     \setlength{\itemsep}{1ex} %条目间距
-     \item Data quality assessment: data anomalies and inherent problems
-     \begin{itemize}
-         \setlength{\parsep}{0ex} %段落间距
-         \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-         \setlength{\itemsep}{1ex} %条目间距
-         \item Mismatched data types
-         \item Mixed data values
-         \item Data outliers
-         \item Missing data
-     \end{itemize}
-     \item Data cleaning: adding missing data and correcting, repairing, or removing incorrect or irrelevant data
-     \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-     \setlength{\itemsep}{1ex} %条目间距
-     \item Missing data: Ignore the tuples or Manually fill in 
-     \item Noisy data: Binning or Regression or Clustering 
- \end{itemize}
-     \item Data transformation: turning the data into the proper format(s) needed
-     \begin{itemize}
-         \setlength{\parsep}{0ex} %段落间距
-         \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-         \setlength{\itemsep}{1ex} %条目间距
-         \item Aggregation: combines together in a uniform format
-         \item Normalization: scales your data into a regularized range
-         \item Feature selection: chooses the important features
-         \item Discreditization: pools data into smaller intervals
-         \item Concept hierarchy generation: add a new hierarchy
-     \end{itemize}
-     \item Data reduction
- \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-     \setlength{\itemsep}{1ex} %条目间距
-     \item Attribute selection: combines tags or features
-     \item Numerosity reduction: helps with data storage and transmission
-     \item Dimensionality reduction: reduces the amount of data 
- \end{itemize}
- \end{enumerate}
- 
- 
- 
- 
- 
- 
- \end{itemize}
- 
- \section{Modelling, solving, evaluating and predicting}
+    \setlength{\parsep}{0ex} %段落间距
+\setlength{\topsep}{2ex} %列表到上下文的垂直距离
+\setlength{\itemsep}{1ex} %条目间距
+\item 
+\end{enumerate}
+ \section{Multi-Objective Optimization Model}
  
  You need to several sections to model, solve, evaluate and predict each task or problem. In the following, we shall review some helpful information to this respect.
  
- \subsection{Introduction to MCM/ICM}
+ \subsection{Analysis of the problem}
  
- COMAP's Mathematical Contest in Modeling (MCM)/ Interdisciplinary Contest in Modeling (ICM) is an international contest designed to provide undergraduate students with the opportunity to work as team members to engage in and improve their modeling, problem solving, and writing skills. Teams apply mathematics to model, develop, and communicate a solution to a real-world problem.
+  \subsection{A causal model of the impact of tourist numbers on satisfaction}
  
- Contest teams of up to three students address one of the following six problem choices over the period of the contest weekend.
- 
- \begin{table}[htbp]
-     \begin{center}
-         
-         \caption{Problem Choices}
-     \begin{tabular}{ll} % 居左对齐
-     \toprule[2pt]
-     \multicolumn{1}{m{5cm}}{\centering MCM}
-     &\multicolumn{1}{m{9cm}}{\centering ICM}\\  %3cm 和 8cm 是列宽，根据实际需求修改
-             \midrule
-             Problem A (continuous)   & Problem D (operations research/network science) \\
-             Problem B (discrete)   & Problem E (sustainability) \\
-              Problem C (data insights)   & Problem F (policy)\\
-             \bottomrule[2pt]
-         \end{tabular}	\label{tab2} % 交互引用 
-         \begin{tablenotes}
-             \footnotesize
-             \item[*] *The upcoming contest dates are 6 a.m. January 24 -- 9 a.m. January 28, 2025 (Beijing Time). %此处加入注释*信息
-         \end{tablenotes}
-     \end{center}
- \end{table} 
- \vspace{-.5cm}
  
 
- 
- \begin{table}[htbp]
-     \begin{center}		
-         \caption{Designations and awards at SCUT in the last five years}
-                 \begin{tabular}{ccccccc} % 居左对齐
-             \toprule[2pt]
-             \multicolumn{1}{m{2cm}}{\centering Year}
-             &\multicolumn{1}{m{1cm}}{\centering O}	&\multicolumn{1}{m{1cm}}{\centering F}	&\multicolumn{1}{m{1cm}}{\centering M}	&\multicolumn{1}{m{1cm}}{\centering H}	&\multicolumn{1}{m{1cm}}{\centering S}&\multicolumn{1}{m{2cm}}{\centering Total}\\  %3cm 和 8cm 是列宽，根据实际需求修改
-             \midrule
-                 2024   & 0 & 8 & 37 & 108 & 195 &348\\
-             2023   & 0 & 4 & 29 & 63 & 162 &258\\
-             2022   & 2 & 14 & 35 & 91 & 220 &362\\
-             2021   & 1 & 10 & 31 & 73 & 184 &299\\
-             2020   & 2 & 4 & 24 & 83 & 165 &278\\
- %			2019   & 0 & 0 & 20 & 45 & 168 &233\\
-             \bottomrule[2pt]
-         \end{tabular}	\label{tab3} % 交互引用
-                 \begin{tablenotes}
-             \footnotesize
-             \item[*] *International COMAP Scholarship Award (2020), INFORMS Award (2022). %此处加入注释*信息
-         \end{tablenotes} 
-     \end{center}
- \end{table} 
- 
-  
- \subsection{Typical models and algorithms}
- 
- We list several typical models and algorithms in the subsection.
- 
- \begin{enumerate}[(1)]
-     \item Basic models
-     \begin{itemize}
-         \setlength{\parsep}{0ex} %段落间距
-         \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-         \setlength{\itemsep}{1ex} %条目间距
-         \item Single (Multiple) linear regression
-         \item Logistic regression
-         \item Correlation analysis: scatter diagram, Pearson (or Spearman) correlation coefficient, (adjusted) R Square coefficient
-     \end{itemize}
-     \item Evaluation models
-         \begin{itemize}
-         \setlength{\parsep}{0ex} %段落间距
-         \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-         \setlength{\itemsep}{1ex} %条目间距
-         \item Analytic Hierarchy Process (AHP)
-         \item Technique for Order Preference by Similarity to Ideal Solution (TOPSIS)
-         \item Fuzzy Comprehensive Assessment (FCA)
-     \end{itemize}
-     \item Prediction models
-     \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-     \setlength{\itemsep}{1ex} %条目间距
-     \item Times series analysis (ARIMA, Exponential Smoothing)
-     \item Differential equations
-     \item Grey system
-     \item Cellular Automata
- \end{itemize}
- \item Reduction models
-     \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-     \setlength{\itemsep}{1ex} %条目间距
-     \item Principal Component Analysis (PCA)
-     \item Factor analysis
-     \item Random forest
-     \item Linear Discriminant Analysis (LDA)
- \end{itemize}
- \item Optimization models
- \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-     \setlength{\itemsep}{1ex} %条目间距
-     \item Single  (Multiple) objective programming
-     \item Integer programming
-     \item Normalization and regularization
-     \item Complex network optimization
-     \item Queuing theory
- \end{itemize}
- \item Statistical models
- \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-     \setlength{\itemsep}{1ex} %条目间距
-     \item Multivariate analysis (PCA, cluster analysis, factor analysis, discriminant analysis, correlation analysis)
-     \item Regression analysis
-     \item Hypothesis Testing
-     \item Variance Testing
-     \item Bayesian statistics
- \end{itemize}
- \item Classification and discrimination algorithms
- \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-     \setlength{\itemsep}{1ex} %条目间距
-     \item clustering (K-means, Fuzzy C-means, hierarchical clustering)
-     \item Bayesian classification and discrimination
-     \item Support Vector Machine (SVM)
-     \item Decision Tree
- \end{itemize}
- \item Intelligent algorithms
- \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-     \setlength{\itemsep}{1ex} %条目间距
-     \item Monte Carlo simulation
-     \item Particle Swarm Optimization (PSO)
-     \item Ant Colony Optimization (ACO)
-     \item Simulated Annealing (SA)
-     \item Genetic Algorithm (GA)
- \end{itemize}
- \item Parameter solving algorithms
- \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-     \setlength{\itemsep}{1ex} %条目间距
-     \item GA
-     \item Bayesian search
-     \item Maximum Likelihood Estimation (MLE)
-     \item Grid search
- \end{itemize}
- \item Other algorithms
- \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-     \setlength{\itemsep}{1ex} %条目间距
-     \item Graph theory
-     \item Dynamic Programming (DP)
-     \item Backtracking search
-     \item Divide Conquer Algorithm (DCA)
-     \item Branch and bound (BNB) method
- \end{itemize}
- \end{enumerate}
- 
- \subsection{Tips}
-  
- \begin{enumerate}[(1)]
-     \item Read outstanding papers in the last five years (thoroughly)
-     \item Complete each imitate trainning as a formal contest
-     \item Revise carefully based on feedback from your advisor
-     \item Choose one or more typical (or modified) models  
-     \item Specify the formulation and main components of models
-     \item Present the key procedure of algorithms used
-     \item State the obtained results succinctly
-     \item Highlight the novelty of your findings
-     \item Beautify the visualizations (Figure and Table)
-     \item Do not wait until the last minute
- \end{enumerate} 
- 
- \section{Tips for the visualizations}
- 
- 
- The visualizations ensure that readers understand the key message in the paper. Figures and tables act as concise tools for clear presentation. Figures convey information visually, and take the form of a graph, diagram, chart, or image, while tables display information arranged in rows and columns in a grid-like format.
- 
- Guidelines for including figures and tables meaningfully in your solution:
- \begin{enumerate}[(1)]
-     \item  Self-explanatory display items
-     \item Avoidance of repetition
-     \item Consistency
-     \item Informative captions
-     \item Adherence to the instructions
- \end{enumerate}
- 
- Recommended tools for making graphics:
- \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-     \setlength{\itemsep}{1ex} %条目间距
-     \item Flow chart: PPT, Visio, \textbf{AxGlyph}, Apache ECharts, edraw, Xmind
-     \item Programmable: \textbf{MatLab}, Mathematica, Maple, Python, R, SPSS, SAS, Stata
-     \item Professional: COMSOL (Physics), ChemDraw (Chemistry), BioRender (Biology), MapInfo (Geography), CAD (Engineering), SMART (Medicine)
-     \item Processing: PhotoShop, ColorSpace, weiciyun
- \end{itemize}
- 
- 
- Tables with three lines are used extensively for their advantages, such as the simple structure and convenience in composition. We also suggest the following online table generators in case of need.
- 
-  \href{https://www.tablesgenerator.com/}{\underline{Tables Generator}} 
-     \qquad \href{https://tableconvert.com/}{\underline{Table Convert}}
-     \qquad \href{https://www.latex-tables.com/}{\underline{\LaTeX ~ Table}}
-  
- 
- 
- \section{Tips for Math typing}
- 
- There are two formulas for typing math in \LaTeX, namely, inline and displayed modes. You can tell \LaTeX to put an inline formula with \$, one at the beginning and one at the end of the formula, such as $E=mc^2$. Use \verb|\[ formula \]| without numbering for the displayed one.
-  
-  \[
-  e=\lim_{n\to\infty} \left(1+\frac{1}{n}\right)^n
-  \]
- or \verb|\begin{equation} formula \end{equation}| with numbering
- 
- \begin{equation}\label{eq1}
-     i\hbar\frac{\partial}{\partial t} \Psi(r,t)  = \left[
-     -\frac{\hbar^2}{2m}\nabla^2+V(r,t) \right]\Psi(r,t) 
- \end{equation}
- 
- For equations longer than a line, use the \textit{aligned} environment, and the ampersand character \& determines where the equations align.
- 
- \begin{equation}\label{eq2}
-     \begin{aligned}
-         \left(1+x\right)ˆn  = &  1 + nx + \frac{n\left(n-1\right)}{2!}x^2 
-         + \frac{n\left(n-1\right)\left(n-2\right)}{3!}x^3 
-         \\& + \frac{n\left(n-1\right)\left(n-2\right)\left(n-3\right)}{4!}x^4 
-         +  \frac{n\left(n-1\right)\left(n-2\right)\left(n-3\right)\left(n-4\right)}{5!}x^5 \ldots
-     \end{aligned}
- \end{equation}
- 
- \begin{equation}\label{eq3}
-     \left\{
-     \begin{aligned}
-         \dot{x}&=f(x,y,z)\\
-         \dot{y}&=g(x,y,z)\\
-         \dot{z}&=h(x,y,z)\\
-     \end{aligned}
-     \right.
- \end{equation}
- 
- The following renders show the matrices with different delimiters
- 
- \begin{equation*}
-     \begin{pmatrix}
-         1 & 2 \\
-         3 & 4
-     \end{pmatrix},\quad
-     \begin{vmatrix}
-     a & b & c  \\
-     \sin(x) & \tan(y) & \cosh(z)\\
-     \alpha^2 & \sqrt{\beta} & \frac{\gamma}{\zeta}
- \end{vmatrix}, \quad  \begin{bmatrix}
- a_{1,1} & a_{1,2} & \cdots & a_{1,n} \\
- a_{2,1} & a_{2,2} & \cdots & a_{2,n} \\
- \vdots  & \vdots  & \ddots & \vdots  \\
- a_{n,1} & a_{n,2} & \cdots & a_{n,n} 
- \end{bmatrix}	
- \end{equation*}	
- Sometimes, we need the \textit{cases} environment with the renders
- \begin{equation*}		
-     \begin{cases}
-     -2, & \text{if~} x\le-2 \\
-     x, & \text{if~}  x\in(-2,2) \\
-     2,  & \text{if~}  x\ge2 \\
-     \end{cases},\qquad  
-     \begin{aligned}
-     &\max_{x} f^Tx  \\
-     \text{subject to} & \\
-     &\begin{cases}
-         A \cdot x \le b\\
-         Aeq\cdot x = beq \\
-     lb\le x \le ub.
-     \end{cases}
-     \end{aligned}
- \end{equation*}
- 
- \section{Tips for pseudocode or algorithms}
- 
- To typeset algorithms or pseudocode, you can use one of the following options:
- 
- \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-     \setlength{\itemsep}{1ex} %条目间距
-     \item Choose one of the (\textit{algpseudocode} OR \textit{algcompatible} OR \textit{algorithmic}) packages to typeset algorithm bodies, and the \textit{algorithm} package for captioning the algorithm.
-     \item The \textit{algorithm2e} package.
- \end{itemize}
- 
- Here's the resulting output, using the \textit{algorithm2e} package:
- 
- \begin{algorithm}
-     \caption{An algorithm with caption}\label{alg1}
-     \KwData{Write here the required data}
-     \KwResult{Write here the expected result}
-     initialization\;
-     \While{While condition}{
-         instructions\;
-         \eIf{condition}{
-             instructions1\;
-             instructions2\;
-         }{
-             instructions3\;
-         }
-     }
- \end{algorithm}
- 
- 
- 
- 
- \section{Tools to prepare your submission}
- 
- There are two main authoring tools: World and \LaTeX ~macro package. Indeed, we recommend the latter and present a primer in the following. The combination of TeX Live and TeXstudio is preferred. 
- 
- \subsection{Download the softwares}
- 
- 
- 
- The way to acquire TeX Live from the official website: 
- \begin{enumerate}[Step 1:]
-     \item Log in \href{https://tug.org/texlive/}{\underline{https://tug.org/texlive/}}
-     \item Click \href{https://tug.org/texlive/windows.html}{\underline{install on Windows}} (or other operating system)
-     \item Click \href{https://tug.org/texlive/acquire-iso.html}{\underline{ISO}} in the Other options section
-     \item Click \href{https://mirror.ctan.org/systems/texlive/Images/}{\underline{download from a nearby CTAN mirror}}
-     \item Click \href{https://mirror.cloud.tencent.com/CTAN/systems/texlive/Images/texlive.iso}{\underline{texlive.iso}}
- \end{enumerate}
- 
- The way to acquire TeXstudio from the official website is much easier. You only need to log in \href{https://texstudio.sourceforge.net/}{\underline{https://texstudio.sourceforge.net/}} and find the download button, \href{https://github.com/texstudio-org/texstudio/releases/download/4.7.2/texstudio-4.7.2-win-qt6.exe}{\underline{Download now}}.
- 
- The alternative and straightforward way to download the aforementioned software is by locating our QQ group folder.
- 
- \begin{figure}[htbp]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置
-     
-     \centering  %图表居中
-     \includegraphics[width=.5\textwidth]{Download_Softwares.png} %图片的名称或者路径之中有空格会出问题 
-     \caption{Download TeX Live and and TeXstudio from our QQ group} % 图片标题 
-     \label{fig3}%交互引用
- \end{figure}
- 
- \subsection{Installation and manual configuration}
- 
- We first install TeX Live. In fact, one needs to unzip the ISO image (texliv.iso) and extract the contents of the ISO image to the computer system. Then you could execute the Windows batch file (install-tl-windows.bat) as an administrator. You can change the installation root if needed. It shall not, however, include any Chinese character, particularly the user's name. More than anything, remember the installation root needed for manual configuration.
- 
- We are now ready to install TeXstudio. One just runs the executable file (texstudio-4.7.2-win-qt6.exe) as an administrator and keeps a shortcut on your desktop or quick launch toolbar.
- 
- After the installation, we make the following configurations.
- 
- \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-     \setlength{\itemsep}{1ex} %条目间距
-     \item Open TeXstudio $\to$ Options $\to$ Configure TeXstudio
-     \item General $\to$ Language
-     \item Commands $\to$ Browse program $\to$ texlive $\to$ 2023 $\to$ bin $\to$ windows
-     
-     (LaTeX, PdfLaTeX, XeLaTeX, LuaLaTeX, BibTex, Biber)
-     \item Click OK button
- \end{itemize}
- 
- \subsection{Online \LaTeX ~writing tool: Overleaf}
- 
- Overleaf is an online LaTeX writing tool that allows you to easily create and collaborate on perfectly formatted scientific and technical documents. You could get started by using a Google or ORCID account, or register it using your email. Then you can log in and use it online. Here is the link \href{https://www.overleaf.com/}{\underline{https://www.overleaf.com/}}.
- 
- \begin{figure}[htbp]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置
- \centering
- \subfigure[Tex Studio]{
-     \begin{minipage}[t]{0.4\linewidth}
-         \centering
-         \includegraphics[width=2in]{Texstudio.png}
-     \end{minipage}%
- }%
- %\hfill
- \subfigure[Overleaf]{
-     \begin{minipage}[t]{0.4\linewidth}
-         \centering
-         \includegraphics[width=2in]{Overleaf.png}\\
-     \end{minipage}%
- }%
- \centering
- \caption{The interface of the two \LaTeX ~ editors }
- \vspace{-0.2cm}
- \label{fig4}
- \end{figure}
- 
- 
- \section{\LaTeX ~onramp and publishing template}
- 
- You can check Zhihu or Bilibili for many documents
- and videos, so we are not going to elaborate any further. Nevertheless, the following useful documents are provided. 
- 
- \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-     \setlength{\itemsep}{1ex} %条目间距
-     \item \href{https://zhuanlan.zhihu.com/p/508559139}{\underline{https://zhuanlan.zhihu.com/p/508559139}}
-     \item \href{https://yun.weicheng.men/Book/LaTeX%E5%85%A5%E9%97%A8.pdf}{\underline{https://yun.weicheng.men/Book/LaTeX入门.pdf}}	
-     \item 
-     \href{https://www.bilibili.com/video/BV1s7411U7Pr/?spm_id_from=333.337.search-card.all.click}{\underline{Bilibili video on a primer of \LaTeX}}
- \end{itemize}
- 
- As mentioned in the summary part, this template aims to assist and guide SCUTers participating in the 2025 MCM/ICM. We will drift onto the source later and publish it. 
- 
- 
- 
- \begin{mybox}{Caution}
-     \begin{itemize}
-         \setlength{\parsep}{0ex} %段落间距
-         \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-         \setlength{\itemsep}{1ex} %条目间距
-         \item If you use this template to complete your contest, please save your final submission as a PDF named 25XXXXX.pdf. (25XXXXX is your team control number, which is seven digits beginning with 25.)
-         \item Please do no spread or publish this template out of our campus. 
-         \item When you encounter problems using this template, contact your advisor or me directly by email.
-     \end{itemize}
- \end{mybox}
- 
-  
- 
- \begin{table}[htbp]
-     \begin{center}		
-         \caption{Advisor team at SCUT (2025)}
-         \begin{tabular}{rlrl} % 居左对齐
-             \toprule[2pt]
-             \multicolumn{1}{m{2cm}}{\centering Name}
-             &\multicolumn{1}{m{4cm}}{\centering Email}	& \multicolumn{1}{m{2cm}}{\centering Name}
-             &\multicolumn{1}{m{4cm}}{\centering Email}\\ %3cm 和 8cm 是列宽，根据实际需求修改
-             \midrule
-             Shenquan Liu   & \href{mailto:mashqliu@scut.edu.cn}{mashqliu@scut.edu.cn} & Caibin Zeng & \href{mailto:macbzeng@scut.edu.cn}{macbzeng@scut.edu.cn}\\
-             Weijian Ding   & \href{mailto:wjding@scut.edu.cn}{wjding@scut.edu.cn} & Xiaolan Liu & \href{mailto:liuxl@scut.edu.cn}{liuxl@scut.edu.cn} \\
-             Xinhui Mao   & \href{mailto:maoxinhui@scut.edu.cn}{maoxinhui@scut.edu.cn} & Yongkuan Cheng & \href{mailto:chengyk@scut.edu.cn}{chengyk@scut.edu.cn} \\
-             Bo Xie   & \href{mailto:xieb@scut.edu.cn}{xieb@scut.edu.cn} & Yuanpeng Zhu & \href{mailto:ypzhu@scut.edu.cn}{ypzhu@scut.edu.cn} \\
-             Le Han   & \href{mailto:hanle@scut.edu.cn}{hanle@scut.edu.cn} & &\\
-             \bottomrule[2pt]
-         \end{tabular}	\label{tab4} % 交互引用
-     \end{center}
- \end{table}
- 
  \section{Sensitivity Analysis}
  
  After solving the problems, one needs to carry out the sensitivity/error/robustness analysis.

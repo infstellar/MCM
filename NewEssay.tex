@@ -133,20 +133,25 @@ Since there're several unacquirable data, we simplify our model by making assump
  \multicolumn{1}{m{4cm}}{\centering Symbol}
  &\multicolumn{1}{m{10cm}}{\centering Description}\\  %3cm 和 8cm 是列宽，根据实际需求修改
  \midrule
- $x$   &           Tax rate \\
- $T$   &           Tax \\
- $C$   &           Tourists count per year\\
- $E$   &           Consumption per tourist \\
- $TTI$ &           Tax used to maintain infrastructures\\
- $CDI$ &           Each tourist's damagement to infrastructures\\
- $IS$  &           State of infrastructures\\
- $CTS$ &           Tourist's satisfaction affected by tourist count\\
- $CIS$ &           Tourist's satisfaction influenced by infrastructures\\
- $LinS$ &          The Locals' satisfaction affected by income\\
- $LIS$ &           The Locals' satisfaction affected by infrastructures\\
- $LS$ &            Satisfaction of the locals\\
- $CS$ &            Satisfaction of the tourists\\
- $EIE$ &           Expenditure in maintaining infrastructures and environment\\
+ $x$   &         Tax rate \\
+ $T$   &         Tax \\
+ $C$   &         Tourists count per year\\
+ $E$   &         Consumption per tourist \\
+ $TTI$ &         Tax used to maintain infrastructures\\
+ $CDI$ &         Each tourist s damagement to infrastructures\\
+ $IS$  &         State of infrastructures\\
+ $CTS$ &         Tourist\textquotesingle s satisfaction affected by tourist count\\
+ $CIS$ &         Tourist\textquotesingle s satisfaction influenced by infrastructures\\
+ $LinS$ &        The Locals\textquotesingle satisfaction affected by income\\
+ $LIS$ &         The Locals\textquotesingle satisfaction affected by infrastructures\\
+ $LS$ &          Satisfaction of the locals\\
+ $CS$ &          Satisfaction of the tourists\\
+ $Inc$ &         Incomes of each family\\
+ $EIE$ &         Expenditure in maintaining infrastructures and environment\\
+ $THF$ &         Tourism heat footprint \\
+ $wTHF$ &        The whole tourism heat footprint \\
+ $\alpha$ &      Loss coefficient of glacier mass balance\\
+ $GM$ &          The melting of glacier  \\
  \bottomrule[2pt]
  \end{tabular}	\label{tab1} % 交互引用 
   \iffalse\begin{tablenotes}
@@ -255,6 +260,23 @@ $$
 Finally, we get a function:
 $$CS=U(CIS,CTS)$$
 \item 本地人满意度的数学模型
+同样的，我们可以将本地人的满意度(LS)分为LinS和LIS。\\
+对于Inc，我们得到下列的数学模型：
+$$Inc=C\times E\times (1-x)\times \frac{365}{10000}$$
+其中乘上365是计算年收入，由于已知朱诺本地有30000居民，假设每一户人家都有三个人，便可得到Inc。根据资料\cite{Hap}对于收入和幸福的数据，我们拟合出了曲线：
+$$LinS=
+\begin{cases}
+    (\log_{5}{\frac{\frac{Inc}{12}+6500}{480000}}+2.25)\times \frac{100}{0.4}\\
+    (\log_{10}{\frac{Inc+400000}{480000}}+0.152)\times \frac{100}{0.4}
+\end{cases}
+$$
+As for the LIS, 这个和CIS的公式是相同的，此处不再赘述。最终我们得到了这样一个函数:
+$$LS=U(LinS,LIS)$$
+\item 冰川消融模型\\
+从文献\cite{glac}中可以得到冰川消融速度的计算方法：
+$$THF=\frac{wTHF}{C}$$
+$$GM=\alpha \times THF$$
+这里我们代入数据得到了预估冰川消融量为$2.34\times 10^{-7} m/a/person$.
 \end{enumerate}
  \section{A causal model of the impact of tourist numbers on satisfaction}
  \section{Multi-Objective Optimization Model}
@@ -401,6 +423,12 @@ We believe implementing these measures will balance tourism development and envi
     \bibitem{Inf}
     Biennial Budget of Juneau \href{https://juneau.org/wp-content/uploads/2024/08/FY25-Adopted-Budget-Book-Final.pdf}{https://juneau.org/wp-content/uploads/2024/08/FY25-Adopted-Budget-Book-Final.pdf}
 
+   \bibitem{Hap}
+   Income and Happiness \href{https://osf.io/cfnbv}{https://osf.io/cfnbv}
+
+   \bibitem{glac}
+    Shuxin Wang, Jiankuo Du, Shuang Li, Hong He, Wei Xu：
+    Impact of tourism activities on glacial changes based on the tourism heat footprint (THF) method,Journal of Cleaner Production, 215, 845--853, (2019).
    %% 书籍
    \bibitem{NDZY2021}
    H. Ni, X. Dong, J. Dong, G. Yu, An Introduction to Machine Learning in Quantitative Finance, World Scientific, 2021.

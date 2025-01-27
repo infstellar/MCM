@@ -4,7 +4,7 @@ from funcs import *
 
 class MyProblem(ElementwiseProblem):
     def __init__(self, **kwargs):
-        super().__init__(n_var=2, n_obj=1, n_ieq_constr=0, xl=np.array([6000, 0.11]), xu=np.array([25000, 0.12]), **kwargs)
+        super().__init__(n_var=2, n_obj=1, n_ieq_constr=0, xl=np.array([6000]), xu=np.array([25000]), **kwargs)
 
     def _evaluate(self, x, out, *args, **kwargs):
         f1 = - (0.5*local_satisfy_function(x[0]) + 0.5*tourism_satisfy_function(x[0]))

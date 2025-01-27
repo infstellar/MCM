@@ -197,24 +197,24 @@ Since there're several unacquirable data, we simplify our model by making assump
     \setlength{\parsep}{0ex} %段落间距
 \setlength{\topsep}{2ex} %列表到上下文的垂直距离
 \setlength{\itemsep}{1ex} %条目间距
-\item 税跟游客数量的数学模型\\
-旅游税的增加在一定程度上会影响游客的数量。从文献\cite{taxandtour}中我们可以得出旅游税每增加 10\%旅游人数就减少 5.4\%的结论。利用该结论并结合文献\cite{pop}中的数据，我们可以建立数学模型：\\
+\item Mathematical model of tax rate and tourist count\\
+The increase in tourism tax will to some extent affect the number of tourists. According to the literature \cite{taxandtour}, we can conclude that for every 10\% increase in tourism tax, the number of tourists will decrease by 5.4\%. Using this conclusion and combining it with the data from the literature \cite{pop}, we can conclude that for every 10\% increase in tourism tax, the number of tourists will decrease by 5.4\%. Using this conclusion and combining it with the data from the literature \\
 $$C=1670000 \times 0.946^{10x-48}$$\\
-其中C为游客数量，x为税率。从途径上，增加旅游税可以在一定程度上限制游客的人数，在控制游客数量的时候可以考虑增加税款，但是由于模型相对简陋，对于过高或者过低的税率的情形没有作出很好的预测，所以在这里限制旅游税率的范围：$$3\% \leq x  \leq 20\%$$
-这里我们可以得到一个可观的曲线图：
-\begin{figure}[htbp]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
+Here, C represents the number of tourists, and x represents the tax rate. In terms of approach, increasing the tourism tax can to some extent limit the number of tourists. When controlling the number of tourists, increasing the tax rate can be considered. However, since the model is relatively rudimentary and does not make good predictions for cases of excessively high or low tax rates, the range of the tourism tax rate is restricted here: $$3\% \leq x  \leq 20\%$$
+Then, we can obtain a satisfactory curve chart：
+\begin{figure}[H]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
  
     \centering  %图表居中
     \includegraphics[width=1\textwidth]{model1.png} %图片的名称或者路径之中有空格会出问题 
     \caption{Relationship between Tourist Count and Tax Rate} % 图片标题                 
     \label{fig1}%交互引用
     \end{figure}
-\item 游客满意度的数学模型\\
-通过前面建立的因果模型，我们定义游客满意度分为CIS和CTS。对于CIS，我们定义：
+\item Mathematical model of tourist satisfaction\\
+Through the causal model established earlier, we define that tourist satisfaction is calculated by CIS and CTS. For CIS, we define:
 $$CIS=F(IS)$$
 $$IS=CDI+TTI$$
-其中的函数F时将State of infrastructures转化为CIS的函数，后面会进行解释。通过查阅政府报告\cite{Inf},我们得到government\textquotesingle s EIE和CDI。
-对数据进行拟合，我们得到CDI的数学模型：
+
+The function F converts the State of infrastructures into the CIS function, which will be explained later. By consulting the government report \cite{Inf},we obtain the government's EIE and CDI. By fitting the data, we obtain the mathematical model of CDI:
 $$
 CDI=
 \begin{cases}
@@ -222,17 +222,16 @@ CDI=
     -12C^{1.06}, &if\ C\ is\ more\ than\ 15000
 \end{cases}
 $$
-CDI的图线如下：
-对于税款我们可以通过报告\cite{spend}中得到的E和x求出：
+For the tax revenue, we can calculate it using E and x obtained from the report \cite{spend}:
 $$T=C\cdot E\cdot x$$
-根据报告中的数据以及往年对于基础设施上的支出，我们最终拟合出了TTI的函数。
+Based on the data in the report and the expenditure on infrastructure in previous years, we have finally fitted the function of TTI.
 $$TTI=
 \begin{cases}
     T-150000, &if\ T\ is\ no\ more\ than\ 546000\\
     \frac{25T}{1.2 \log_{1.4}{100x}}, &if\ T\ is\ more\ than\ 546000
 \end{cases}
 $$
-图线如下：
+Its graph is as follows:
 \begin{figure}[H]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
  
     \centering  %图表居中
@@ -240,8 +239,7 @@ $$
     \caption{Graph of TTI} % 图片标题                 
     \label{fig1}%交互引用
     \end{figure}
-模型展示了税收变多到了一定程度时，在基建上的投入比例会有所降低。
-如此，我们可以获得IS的图线：
+    The model shows that when the tax revenue invested in infrastructure increases to a certain extent, the input-output efficiency will decrease. Thus, we can obtain the graph of IS:
 \begin{figure}[H]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
  
     \centering  %图表居中
@@ -249,7 +247,7 @@ $$
     \caption{Graph of IS} % 图片标题                 
     \label{fig1}%交互引用
     \end{figure}
-F 是将IS转化为satisfaction的函数，对于本地人和游客而言都是相同的。我们定义satisfaction为一种评判的指标，其值域范围为-100到100。
+    F is the function that transforms IS into satisfaction, which is applicable to both locals and tourists. We define satisfaction as an evaluation metric with a value range of -100 to 100.
 $$
 CIS(LIS)=
 \begin{cases}
@@ -259,24 +257,26 @@ CIS(LIS)=
 $$
 Finally, we get a function:
 $$CS=U(CIS,CTS)$$
-\item 本地人满意度的数学模型
-同样的，我们可以将本地人的满意度(LS)分为LinS和LIS。\\
-对于Inc，我们得到下列的数学模型：
+\item Mathematical model of locals' satisfaction
+
+Similarly, we can divide the satisfaction of local residents (LS) into LinS and LIS. 
+
+For Inc, we obtain the following mathematical model:
 $$Inc=C\cdot E\cdot (1-x)\times \frac{365}{10000}$$
-其中乘上365是计算年收入，由于已知朱诺本地有30000居民，假设每一户人家都有三个人，便可得到Inc。根据资料\cite{Hap}对于收入和幸福的数据，我们拟合出了曲线：
+Where multiplying by 365 calculates the annual income. Given that Juneau has 30,000 residents and assuming each household consists of three people, we can obtain Inc. Based on the data from \cite{Hap} on income and happiness, we have fitted the curve:
 $$LinS=
 \begin{cases}
     (\log_{5}{\frac{\frac{Inc}{12}+6500}{480000}}+2.25)\times \frac{100}{0.4}\\
     (\log_{10}{\frac{Inc+400000}{480000}}+0.152)\times \frac{100}{0.4}
 \end{cases}
 $$
-As for the LIS, 这个和CIS的公式是相同的，此处不再赘述。最终我们得到了这样一个函数:
+As for the LIS, the formula is the same as that for CIS, and will not be repeated here. Ultimately, we obtain the following function:
 $$LS=U(LinS,LIS)$$
-\item 冰川消融模型\\
-从文献\cite{glac}中可以得到冰川消融速度的计算方法：
+\item Glacier melting model\\
+The calculation method for glacier melting speed can be obtained from the literature \cite{glac}:
 $$THF=\frac{wTHF}{C}$$
 $$GM=\alpha \cdot THF$$
-这里我们代入数据得到了预估冰川消融量为$2.34\times 10^{-7} m/a/person$.
+Here, by substituting the data, we obtain the estimated glacier melting amount as $2.34×10−7 m/a/person$.
 \end{enumerate}
  \section{Multi-Objective Optimization Model}
  \subsection{The Analytic Hierarchy Process}

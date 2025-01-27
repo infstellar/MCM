@@ -38,7 +38,7 @@
  \newcommand{\upcite}[1]{\textsuperscript{\textsuperscript{\cite{#1}}}}
  
  
- \title{The Title Should be Concise and Informative}  % 标题
+ \title{Sustain the happiness of everyone：\\ A Multi-objective Optimization Model for Juneau Tourism}  % 标题
  
  % 如需要修改题头（默认为 MCM/ICM），请使用以下命令（此处修改为 MCM）
  %\renewcommand{\contest}{MCM}
@@ -166,7 +166,7 @@ Since there're several unacquirable data, we simplify our model by making assump
  
  
  \section{A causal model of the impact of tourist numbers on satisfaction}
- \subsection{关系模型的构建}
+ \subsection{Construction of causal model}
  In Juneau, the impacts of tourist count can be simplified into the following model. In order to better quantify the impact of various factors on the locals and tourists, we set tourist satisfaction and local satisfaction as measuring standards.
  
  \begin{figure}[htbp]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
@@ -190,9 +190,9 @@ Since there're several unacquirable data, we simplify our model by making assump
         \item "+": Positive correlation.
         \item "-": Negative correlation.\\
  \end{itemize}
- \subsection{模型分析}
- 该模型的建立参照了朱诺市相关的文献，客观分析了不同因素带来的影响。其中，figure 2里使用正负号对因素与因素之间的正相关、负相关进行了表示。在朱诺的相关调查中表明，过量的旅游人数一方面会带来本地人收入的增加，另一方面也会给基础设施带和环境带来压力。但同时，旅游人数的增加又会给政府带来相当可观的税收，可以用于维护基础设施和进行环境建设。另一方面，通过THF(tourism heat footprint)的计算方法，我们可以算出游客的平均AHR(Anthropogenic heat release)，通过AHR从而进行冰川消融的预测。冰川消融也可能会导致游客满意度的下降，而环境、基础设施的破坏会同时减少本地人和游客的满意度。因此通过使用多目标优化的模型，以旅游人数作为自变量，我们可以得到pareto最优解集，解集范围内的人数即为相对理想、能发展可持续旅游的游客人数。
- \subsection{建立数学模型}
+ \subsection{Model Analysis}
+ The model is established with reference to literature related to Juneau and objectively analyzes the impacts of different factors. In Figure 2, positive and negative signs are used to indicate the positive and negative correlations between factors. Surveys in Juneau show that an excessive number of tourists can, on the one hand, increase the income of local residents, and on the other hand, put pressure on infrastructure and the environment. However, the increase in the number of tourists can also bring considerable tax revenue to the government, which can be used to maintain infrastructure and carry out environmental construction. On the other hand, through the calculation method of THF (tourism heat footprint), we can calculate the average AHR (Anthropogenic heat release) of tourists, and then predict the glacier melting through AHR. Glacier melting may also lead to a decrease in tourist satisfaction, and the destruction of the environment and infrastructure will simultaneously reduce the satisfaction of both local residents and tourists. Therefore, by using a multi-objective optimization model with the number of tourists as the independent variable, we can obtain the Pareto optimal solution set, and the tourist count within the solution set is relatively ideal and can develop sustainable tourism.
+ \subsection{Establishment of mathematical models}
  \begin{enumerate}[(1)]
     \setlength{\parsep}{0ex} %段落间距
 \setlength{\topsep}{2ex} %列表到上下文的垂直距离
@@ -314,7 +314,7 @@ Now we can get exact numbers of CS and LS, to make further optimization, we will
  
 
  \section{Sensitivity Analysis}
- \subsection{人均基建开销变化}
+ \subsection{CDI changes}
  
  
  \begin{figure}[H]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
@@ -334,19 +334,16 @@ Now we can get exact numbers of CS and LS, to make further optimization, we will
  \label{figy}%交互引用
  \end{figure}
 
- 如图所示，在人均基建开销由\$12减少到\$8时，最优人数值并未发生变化，均维持在15000左右，
- Therefore, it can be considered that the optimal 游客人数 is relatively insensitive to 人均基建开销 and has strong robustness. 
- \subsection{增加税率}
- - 我们把船票价格提升20\%，额外的收入用于维护旅游环境；结果显示，可持续旅游人数限制上升至15620人，表明额外的船税对维护可持续旅游有轻微积极影响；
-   - 我们提升了3\%的综合税率，结果显示，可持续旅游人数限制上升至16060人，表明额外的综合税率对维护可持续旅游有中度影响；但是，由于维护环境，特别是保护冰川的边际效益较小，更高的税率对提升可持续旅游人数限制不产生显著作用，反而可能减少游客的旅游意愿。
- \subsection{环保成本降低}
- 投放保护环境的宣传广告可能有利于维护旅游环境。根据资料，我们假定，政府支出部分款项用于宣传，从而减少维护每个游客所需要的费用。结果表明，仅需4\%的船税提升，可持续旅游人数限制上升至16620人，表明投放保护环境的宣传广告相比直接投入环境保护，在中等规模宣传下有显著积极作用。因此，我们推荐政府投放广告，倡议游客保护环境。
- \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
-     \setlength{\topsep}{2ex} %列表到上下文的垂直距离
-     \setlength{\itemsep}{1ex} %条目间距
-     \item Sensitivity analysis provides users of mathematical and simulation models with tools to appreciate the dependency of the model output from model input and to investigate how important is each model input in determining its output.
- \end{itemize}
+ As shown in the figure, when CDI decreases from $12 to $8, the optimal tourist count does not change and remains around 15000,
+ Therefore, it can be considered that the optimal tourist count is relatively insensitive to CDI and has strong robustness. 
+ \subsection{Increase in tax rate}
+  %我们把船票价格提升20\%，额外的收入用于维护旅游环境；结果显示，可持续旅游人数限制上升至15620人，表明额外的船税对维护可持续旅游有轻微积极影响；
+    %我们提升了3\%的综合税率，结果显示，可持续旅游人数限制上升至16060人，表明额外的综合税率对维护可持续旅游有中度影响；但是，由于维护环境，特别是保护冰川的边际效益较小，更高的税率对提升可持续旅游人数限制不产生显著作用，反而可能减少游客的旅游意愿。
+    We increased the ferry ticket price by 20\%, and allocated the additional revenue to the maintenance of the tourism environment; the results showed that the sustainable limit for the number of tourists increased to 15,620, indicating that the additional ferry tax has a slight positive effect on maintaining sustainable tourism.
+    
+    We raised the comprehensive tax rate by 3\%, and the results indicated that the sustainable limit for the number of tourists increased to 16,060, suggesting that the additional comprehensive tax rate has a moderate impact on maintaining sustainable tourism. However, due to the diminishing marginal benefits of environmental conservation, especially the protection of glaciers, higher tax rates do not significantly enhance the sustainable limit for the number of tourists and may instead reduce tourists' willingness to travel.
+    \subsection{The reduction of environmental protection costs}
+    Investing in environmental protection publicity advertisements may be beneficial for preserving the tourism environment. Based on the information provided, we assume that the government allocates a portion of its funds for publicity purposes, thereby reducing the costs needed to maintain the environment for each tourist. The results indicate that with just a 4\% increase in the ferry tax, the sustainable limit for the number of tourists rises to 16,620, showing that investing in environmental protection publicity advertisements has a significantly positive effect compared to direct investment in environmental protection, especially under moderate-scale promotion. Therefore, we recommend that the government invest in advertising campaigns to encourage tourists to protect the environment.
  
  \section{Strengths and weaknesses}
  
@@ -356,9 +353,9 @@ Now we can get exact numbers of CS and LS, to make further optimization, we will
      \setlength{\parsep}{0ex} %段落间距
      \setlength{\topsep}{2ex} %列表到上下文的垂直距离
      \setlength{\itemsep}{1ex} %条目间距
-     \item 在causal模型中充分考虑了游客人数对居民收入、政府税收、基础设施状态和生态环境的影响
-     \item 适当修改后的模型能够被用于另一个受过度旅游影响的目的地，具有通用性
-     \item 在求解多目标优化问题时使用了NSGA-II遗传算法，该算法结合了神经网络和符号推理，具有鲁棒性	
+     \item In the causal model, the impact of the number of tourists on residents' income, government revenue, infrastructure conditions, and the ecological environment has been fully taken into account.
+     \item The appropriately modified model can be applied to another destination affected by over-tourism, demonstrating its versatility.
+     \item When solving the multi-objective optimization problem, the NSGA-II genetic algorithm was employed, which integrates neural networks and symbolic reasoning, and is characterized by its robustness.
  \end{itemize}
  
  \subsection{Weaknesses}
@@ -367,9 +364,9 @@ Now we can get exact numbers of CS and LS, to make further optimization, we will
     \setlength{\parsep}{0ex} %段落间距
      \setlength{\topsep}{2ex} %列表到上下文的垂直距离
      \setlength{\itemsep}{1ex} %条目间距
-      \item 没有考虑突发自然灾害对Juneau旅游业的影响
-      \item 算法没有将保护冰川之外的旅游资源作为约束条件
-      \item 没有考虑政府资金在环境保护和基础设施维护上的分配比例随税收总额的变化
+      \item The effect of sudden natural disasters on Juneau's tourism industry was not considered.
+      \item The algorithm did not incorporate the conservation of tourism resources beyond glaciers as a constraint.
+      \item The algorithm did not take into account how the allocation ratio of government funding for environmental protection and infrastructure maintenance changes with the total tax revenue.
  \end{itemize}
  
  

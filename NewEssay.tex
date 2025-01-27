@@ -96,7 +96,7 @@ To demonstrate our workflow visually, the flow chart is shown.
  
  \centering  %图表居中
  \includegraphics[width=.9\textwidth]{chart2.png} %图片的名称或者路径之中有空格会出问题 
- \caption{Flow Chart of Our Work (From Team \# 2511654)} % 图片标题                 
+ \caption{Flow Chart of Our Work} % 图片标题                 
  \label{fig1}%交互引用
  \end{figure}
  
@@ -110,13 +110,15 @@ Since there're several unacquirable data, we simplify our model by making assump
      \setlength{\topsep}{2ex} %列表到上下文的垂直距离
      \setlength{\itemsep}{1ex} %条目间距
      \item[\bfseries \textit{Assumption} 1:] All the tourists who went to Juneau had been on a cruise.
-     \item[\bfseries \textit{Explanation:}]  
+     %\item[\bfseries \textit{Explanation:}]  
      \vspace{1ex}
-     \item[\bfseries \textit{Assumption} 2:]  XXX
-     \item[\bfseries \textit{Explanation:}]  XXX
+     \item[\bfseries \textit{Assumption} 2:] After deducting government expenses from taxes, the remaining funds are all used for infrastructure maintenance and environmental protection.
+     %\item[\bfseries \textit{Explanation:}]  XXX
      \vspace{1ex}
-         \item[\bfseries \textit{Assumption} 3:]  XXX
-     \item[\bfseries \textit{Explanation:}]  XXX
+     \item[\bfseries \textit{Assumption} 3:] Incorporate all other taxes into the consumption tax rate calculation uniformly.
+     %\item[\bfseries \textit{Explanation:}]  XXX
+     \vspace{1ex}
+     \item[\bfseries \textit{Assumption} 4:] Juneau's revenue comes entirely from the tourism industry.
  \end{itemize}
  
  Additional assumptions are made to simplify the analysis for individual sections. These assumptions will be discussed at the appropriate locations.
@@ -264,16 +266,38 @@ $$
  
 
  \section{Sensitivity Analysis}
+ \subsection{人均基建开销变化}
  
- After solving the problems, one needs to carry out the sensitivity/error/robustness analysis.
  
+ \begin{figure}[H]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
+ 
+ \centering  %图表居中
+ \includegraphics[width=.9\textwidth]{sensitivity12.png} %图片的名称或者路径之中有空格会出问题 
+ \caption{The optimal tourist count at an infrastructure maintenance expense per tourist of \$8} % 图片标题                 
+ \label{figx}%交互引用
+ \end{figure}
+
+ 
+ \begin{figure}[H]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
+ 
+ \centering  %图表居中
+ \includegraphics[width=.9\textwidth]{sensitivity8.png} %图片的名称或者路径之中有空格会出问题 
+ \caption{The optimal tourist count at an infrastructure maintenance expense per tourist of \$8} % 图片标题                 
+ \label{figy}%交互引用
+ \end{figure}
+
+ 如图所示，在人均基建开销由\$12减少到\$8时，最优人数值并未发生变化，均维持在15000左右，
+ Therefore, it can be considered that the optimal 游客人数 is relatively insensitive to 人均基建开销 and has strong robustness. 
+ \subsection{增加税率}
+ - 我们把船票价格提升20\%，额外的收入用于维护旅游环境；结果显示，可持续旅游人数限制上升至15620人，表明额外的船税对维护可持续旅游有轻微积极影响；
+   - 我们提升了3\%的综合税率，结果显示，可持续旅游人数限制上升至16060人，表明额外的综合税率对维护可持续旅游有中度影响；但是，由于维护环境，特别是保护冰川的边际效益较小，更高的税率对提升可持续旅游人数限制不产生显著作用，反而可能减少游客的旅游意愿。
+ \subsection{环保成本降低}
+ 投放保护环境的宣传广告可能有利于维护旅游环境。根据资料，我们假定，政府支出部分款项用于宣传，从而减少维护每个游客所需要的费用。结果表明，仅需4\%的船税提升，可持续旅游人数限制上升至16620人，表明投放保护环境的宣传广告相比直接投入环境保护，在中等规模宣传下有显著积极作用。因此，我们推荐政府投放广告，倡议游客保护环境。
  \begin{itemize}
      \setlength{\parsep}{0ex} %段落间距
      \setlength{\topsep}{2ex} %列表到上下文的垂直距离
      \setlength{\itemsep}{1ex} %条目间距
      \item Sensitivity analysis provides users of mathematical and simulation models with tools to appreciate the dependency of the model output from model input and to investigate how important is each model input in determining its output.
-     \item Any data collected will be corrupted by errors; it is important to quantify these errors as the magnitude of the errors will influence the interpretation of the data. Errors arise in all four stages of the experimental process: calibration, acquisition, data analysis, and data combination.
-     \item Robustness analysis is a tool for analyzing problem situations with high uncertainty and sequential decision-making. It measures the flexibility of alternatives and the compatibility of decisions and plans.
  \end{itemize}
  
  \section{Strengths and weaknesses}
@@ -284,22 +308,21 @@ $$
      \setlength{\parsep}{0ex} %段落间距
      \setlength{\topsep}{2ex} %列表到上下文的垂直距离
      \setlength{\itemsep}{1ex} %条目间距
-     \item Models: novelty, interpretability,  universality.
-     \item Algorithms: effectiveness, efficiency, improvement.	
-     \item Never add any subjective evaluation.
+     \item 在causal模型中充分考虑了游客人数对居民收入、政府税收、基础设施状态和生态环境的影响
+     \item 适当修改后的模型能够被用于另一个受过度旅游影响的目的地，具有通用性
+     \item 在求解多目标优化问题时使用了NSGA-II遗传算法，该算法结合了神经网络和符号推理，具有鲁棒性	
  \end{itemize}
  
  \subsection{Weaknesses}
- 
+
  \begin{itemize}
-     \setlength{\parsep}{0ex} %段落间距
+    \setlength{\parsep}{0ex} %段落间距
      \setlength{\topsep}{2ex} %列表到上下文的垂直距离
      \setlength{\itemsep}{1ex} %条目间距
-     \item Missing other potentially useful features. 
-     \item Certain degree of arbitrariness in modelling.	
-     \item Much more brief than the strengths in length and number.
+      \item 没有考虑突发自然灾害对Juneau旅游业的影响
+      \item 算法没有将保护冰川之外的旅游资源作为约束条件
+      \item 没有考虑政府资金在环境保护和基础设施维护上的分配比例随税收总额的变化
  \end{itemize}
- 
  
  
  \clearpage

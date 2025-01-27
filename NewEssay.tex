@@ -296,16 +296,23 @@ $$CS=c1\cdot CIS+c2\cdot CTS$$
 $$LS=l1\cdot LinS+l2\cdot LIS$$
 Now we can get exact numbers of CS and LS, to make further optimization, we will use NSGA-II algorithm to get a Pareto solution.
  \subsection{NSGA-II Processing}
- NSGA-II是一种用于解决多目标优化问题的遗传算法，它通过迭代来找到Pareto最优解。Pareto最优解可能不是唯一解，而是所有最优解的解集。之所以会产生pareto最优解，是因为从问题中产生的答案相互是非支配的。\\
- 该算法的步骤如下：\\
- 1.初始化种群：随机生成包含多个个体的初始种群。\\
- 2.计算适应度：计算每个个体的目标函数空间中的适应的\\
- 3.非支配排序：将种群中的个体划分为多个前沿，标识个体占据pareto前沿上的不同位置。\\
- 4.拥挤距离的计算：计算拥挤距离以量度个体在目标空间的密度。\\
- 5.选择操作：通过二元选择操作，从种群中随机选择两个个体，选出具有更高非支配级别的个体。\\
- 6.交叉变异操作：将筛选出来的个体通过交叉和变异的操作生成父代种群，并将父代和子代合并为一个更大的候选种群。\\
- 7.迭代：将候选种群重新进行以上步骤，直到满足停止条件。\\
- 此处我们构建多目标函数，并且将冰川消融引起的游客减少同时作为约束条件：
+ NSGA-II is a genetic algorithm used to solve multi-objective optimization problems. It iteratively finds the Pareto optimal solutions. Pareto optimal solutions may not be unique but rather a set of all optimal solutions. Pareto optimal solutions arise because the answers generated from the problem are non-dominated with respect to each other.
+The steps of the algorithm are as follows:
+1. Initialize the population: Randomly generate an initial population containing multiple individuals.
+
+2. Calculate fitness: Calculate the fitness of each individual in the objective function space.
+
+3. Non-dominated sorting: Divide the individuals in the population into multiple fronts to identify the different positions of individuals on the Pareto front.
+
+4. Calculate crowding distance: Calculate the crowding distance to measure the density of individuals in the objective space.
+
+5. Selection operation: Through binary selection operation, randomly select two individuals from the population and choose the individual with a higher non-domination level.
+
+6. Crossover and mutation operations: Generate the parent population through crossover and mutation operations on the selected individuals, and combine the parent and offspring populations into a larger candidate population.
+
+7. Iteration: Reapply the above steps to the candidate population until the stopping condition is met.
+
+Here, we construct a multi-objective function and consider the reduction in tourists caused by glacier melting as a constraint condition at the same time:
  $$minf(C)=\{-CS(C),-LS(C)\}$$
  $$=
  13670.13\leq C\leq15211.08$$
@@ -450,18 +457,7 @@ We believe implementing these measures will balance tourism development and envi
    \bibitem{glac}
     Shuxin Wang, Jiankuo Du, Shuang Li, Hong He, Wei Xu：
     Impact of tourism activities on glacial changes based on the tourism heat footprint (THF) method,Journal of Cleaner Production, 215, 845--853, (2019).
-   %% 书籍
-   \bibitem{NDZY2021}
-   H. Ni, X. Dong, J. Dong, G. Yu, An Introduction to Machine Learning in Quantitative Finance, World Scientific, 2021.
    
-   %% 期刊文献
-   \bibitem{V2020}
-   P. Virtanen et al., SciPy 1.0: fundamental algorithms for scientific computing in
-   Python, Nature Methods, 17, 261--272, (2020).
-   
-   %% 网页资料
-   \bibitem{Mesevage2021}
-   T.G. Mesevage, What is data preprocessing \& What are the steps involved? (2021) \href{https://monkeylearn.com/blog/data-preprocessing/}{https://monkeylearn.com/blog/data-preprocessing/}
  \end{thebibliography}
  
  % \includepdf[pages={1,2}]{Memo.pdf} 

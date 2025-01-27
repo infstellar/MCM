@@ -1,304 +1,248 @@
-\documentclass[a4paper]{article}
-\usepackage[margin=1in]{geometry} % 设置边距，符合Word设定
-%\usepackage{ctex}
-\newcommand{\keywords}[1]{\par\noindent\textbf{Keywords:} #1}
-\usepackage{graphicx} %插入图片的宏包
-\usepackage{float} %设置图片浮动位置的宏包
-\usepackage{subfigure} %插入多图时用子图显示的宏包
-\usepackage{lipsum}
-\usepackage{minted}% 语法高亮和代码样式设置方面更加强大和灵活
-\usepackage{listings}% 引入listings包，用于在文档中插入代码，并可自定义代码样式
-\usepackage{caption}
-\usepackage{subfigure}% 并排插入图片
-% 表格宏包：
-\usepackage{booktabs}  %% 三线表
-\usepackage{diagbox}   %% 斜线表头
-\usepackage{multirow}  %% 合并单元格
-\usepackage{algorithm}  
-\usepackage{algorithmic} %for coding display
+%%
+%% EasyMCM: 一个简洁、易用的美赛模板
+%% Oringinal template (MCMthesis v5.0) by latexstudio, <latexstudio@hotmail.com>
+%% Redeveloped by youjiarui189 (xjtu-blacksmith), <yjr134@163.com>
+%% 目前由西安交大钱院学辅（@qyxf）负责，网址：https://qyxf.site/
+%%
+%% v5.00: 注释全部汉化（且添加了大量注释），并将格式改进为符合当前规范的版本
+%% v5.01: 正式改为独立宏包 EasyMCM，改为简洁、清晰、符合美赛规范的格式
+%% v5.02: 支持了 7 位控制号，改进了若干已知问题，并补充了一些非必需的内容
+%% v5.1 : 适配 2020 年 Summary sheet 样式，大幅优化代码，更加简明易用
+%% 
+%% 博客地址：http://www.cnblogs.com/xjtu-blacksmith/
+%% GitHub 发布页面：https://github.com/qyxf/easymcm/releases
+%%
+
+\NeedsTeXFormat{LaTeX2e}[2005/12/01]
+\ProvidesPackage{easymcm}[2019/01/21 EasyMCM v5.1]
+\typeout{EasyMCM Package, version 5.1}
+
+% 基本宏包 
+\RequirePackage[a4paper,margin=2.5cm,bottom=1.5cm]{geometry}  % 页边距和纸张大小
+\RequirePackage{fancyhdr,fancybox}  % 设置页眉页脚
+\RequirePackage{ifthen}  % 逻辑结构
+\RequirePackage{lastpage}  % 生成"Page X of XX"
+\RequirePackage{paralist}  % 修改 itemize 各项间距
+\RequirePackage{indentfirst}  % 全文首行缩进
+\RequirePackage[toc,page,title,titletoc,header]{appendix}  % 附录定制
+
+% 数学公式
+\RequirePackage{amsfonts,amsmath,amssymb} % AMS-LaTeX 符号、公式
+
+% 定理环境声明
+% 事实上大部分论文中用不到，但仍保留以供使用
+\newtheorem{Theorem}{Theorem}[section]
+\newtheorem{Lemma}[Theorem]{Lemma}
+\newtheorem{Corollary}[Theorem]{Corollary}
+\newtheorem{Proposition}[Theorem]{Proposition}
+\newtheorem{Definition}[Theorem]{Definition}
+\newtheorem{Example}[Theorem]{Example}
+
+% 目录
+\RequirePackage{titlesec,titletoc}  % 自定义目录样式
+\setcounter{tocdepth}{3}  % 目录显示到 subsubsection(3) 级别
+\RequirePackage[font=small]{caption}  % 使图表标题字号小一号
+\renewcommand\abstractname{Summary}  % 摘要标题
+
+% 表格相关
+\RequirePackage{longtable,multirow,array}  % 各种基本的表格宏包
+\RequirePackage{booktabs}  % 三线表宏包
+\RequirePackage{tabularx}
+
+% 字体相关
+\RequirePackage[T1]{fontenc}  % 开启拓展区正文字体
+\RequirePackage{url}  % 网址宏包，以下命令使得网址能自动换行
+\def\UrlBreaks{\do\A\do\B\do\C\do\D\do\E\do\F\do\G\do\H\do\I\do\J
+\do\K\do\L\do\M\do\N\do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V
+\do\W\do\X\do\Y\do\Z\do\[\do\\\do\]\do\^\do\_\do\`\do\a\do\b
+\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l\do\m\do\n
+\do\o\do\p\do\q\do\r\do\s\do\t\do\u\do\v\do\w\do\x\do\y\do\z
+\do\.\do\@\do\\\do\/\do\!\do\_\do\|\do\;\do\>\do\]\do\)\do\,
+\do\?\do\'\do+\do\=\do\#}
+
+% 基本参数
+\setlength{\headheight}{15pt}
+\newcommand{\MCM@control}{0000000}  % 队伍控制号，默认为 0000000
+\DeclareOption*{\edef\MCM@control{\CurrentOption}}  % 宏包选项接收控制号
+\ProcessOptions
+\newcommand{\control}{\MCM@control}
+\newcommand{\team}{Team \#\ \MCM@control}
+\newcommand{\contest}{MCM/ICM}
+
+% 书签，插图和交叉引用的设置
+\RequirePackage{graphicx}  % 插图
+\RequirePackage{flafter}  % 引用该宏包可避免图片在引用它的正文之前出现
+\RequirePackage{float} 
+\RequirePackage{subfigure}
+\RequirePackage{ifpdf}  % 判断是否在运行 pdftex
+\ifpdf%
+\RequirePackage{epstopdf}  % pdftex 不能使用 eps 图片，用该宏包转成 pdf 后使用
+\DeclareGraphicsExtensions{.pdf,.jpg,.jpeg,.png}    % 允许的图片类型
+\RequirePackage[
+    linkcolor=black,  % 消除链接色彩
+    citecolor=black,
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=black]{hyperref}
+\else\DeclareGraphicsExtensions{.eps,.ps}  % 不需要转换 eps 图片格式
+\ifxetex\RequirePackage[
+    xetex,  % 运行 xetex
+    pdfstartview=FitH,
+    bookmarksnumbered=true,
+    bookmarksopen=true,
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=black]{hyperref}
+\else\RequirePackage[
+    dvipdfm,  % 运行其他编译引擎（如 luatex）
+    pdfstartview=FitH,
+    bookmarksnumbered=true,
+    bookmarksopen=true,
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=black]{hyperref}
+\fi\fi
+
+% 以下设置使得一页上最多有六个浮动对象（图、表）
+% 且顶部最多三个，底部最多三个
+% 可自行修改参数
+\setcounter{totalnumber}{6}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{3}
+
+% 很多人发现缺省的浮动参数过于严格了
+% 下面的命令
+\renewcommand{\textfraction}{0.15}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.65}
+\renewcommand{\floatpagefraction}{0.60}
+% 将浮动参数重新设置为更宽松的值。
+% ---选自《LaTeX2e插图指南》
+
+% 图表标题名称
+\renewcommand{\figurename}{Figure}
+\renewcommand{\tablename}{Table}
+\setlength{\belowcaptionskip}{4pt}
+\setlength{\abovecaptionskip}{4pt}  % 设置 caption 与上下文间距
+
+% 以下定义了自动识别的图表文件夹
+% 若使用这些名字命名文件夹
+% 则引用图片路径时只需填文件名即可
+\graphicspath{{./}{./img/}{./fig/}{./image/}{./figure/}{./picture/}}
+
+% 页眉页脚设置
+\lhead{\small \team}
+\chead{}
+\rhead{\small Page \thepage\ of \pageref{LastPage}}
+\lfoot{}
+\cfoot{}
+\rfoot{}
+
+% 信件/备忘录环境
+\newcounter{prefix}  % 创建隐藏前缀计数器，避免对 letter 环境编号
+\renewcommand{\theHsection}{\theprefix.\thesection}  % 针对 hyperref
+\newenvironment{letter}[1]{\refstepcounter{section}\addtocounter{section}{-1}\section*{#1}\addcontentsline{toc}{section}{#1}}{\stepcounter{prefix}}
+
+% 快乐 etoolbox
+\RequirePackage{etoolbox}  % 减轻正文复杂度
+\AtBeginEnvironment{abstract}{\setlength\parskip{1ex}}  % 摘要中增加段距
+\AtBeginEnvironment{thebibliography}{
+    \refstepcounter{section}
+    \addcontentsline{toc}{section}{References}}  % 参考文献附加链接
+\BeforeBeginEnvironment{subappendices}{
+    \clearpage
+    \setcounter{secnumdepth}{-1}}  % 附录附加链接
+\BeforeBeginEnvironment{letter}{\clearpage}  % 信件环境附加换页
+
+% 代码相关
+\RequirePackage{listings}
+\RequirePackage{color,xcolor}
+\definecolor{grey}{rgb}{0.8,0.8,0.8}
+\definecolor{darkgreen}{rgb}{0,0.3,0}
+\definecolor{darkblue}{rgb}{0,0,0.3}
+\def\lstbasicfont{\fontfamily{pcr}\selectfont\footnotesize}
+\lstset{%
+   % numbers=left,
+   % numberstyle=\small,%
+    showstringspaces=false,
+    showspaces=false,%
+    tabsize=4,%
+    frame=lines,%
+    basicstyle={\footnotesize\lstbasicfont},%
+    keywordstyle=\color{darkblue}\bfseries,%
+    identifierstyle=,%
+    commentstyle=\color{darkgreen},%\itshape,%
+    stringstyle=\color{black}%
+}
+\lstloadlanguages{C,C++,Java,Matlab,Mathematica}
 
 
-\title{\textbf{Olympic Project Evaluation Model: Application of Random Forest Regression in Sports Decision Making}}
-\author{ Guo Runheng,\ Yang Zicheng,\ Qiu Xinyang}
-\date{\today}
-\begin{document}
-    \maketitle
-\begin{abstract}
-    % 奥运会项目调整是奥运会持续发展的重要方式，对奥运会项目的调整有利于提升奥运会的社会与时代价值。本文主要采用随机森林回归模型，对未来奥运会项目的增减进行了评估与预测。
-    % \par 针对任务1，我们根据IOC标准，通过在网上查找多方面的资料并参考权威数据，对这些运动的受欢迎度和可达性、性别平等性、可持续性、包容性、相关性与创新性、安全与公平竞争性、新建更多项目的可能性共七个维度因素，在0-1之间进行了评分。
-	% \par 针对任务2，我们对1948-2020年项目数量的变化表格进行分析，利用Python语言进行了数据的可视化操作。然后，我们使用一次线性拟合，分析从1948到2020年的项目数变化的规律性特征。然后，我们以七个维度因素作为自变量，线性拟合的斜率作为因变量，训练了一个随机森林回归模型。
-    % \par 针对任务4，我们利用训练好的随机森林回归模型，识别了三个可能在2032年布里斯班奥运会上新增或重新引入的 SDEs ，并确定其优先推荐的顺序。
-    The adjustment of Olympic SDEs is an important way for the continuous development of the Olympic Games. Adjusting the Olympic SDEs is conducive to enhancing the social and contemporary value of the Olympics. This paper mainly uses the random forest regression model to evaluate and predict the increase or decrease of future Olympic SDEs.
-    \par based on the IOC standards, we searched for a variety of information online and referred to authoritative data to score these sports on seven dimensions: popularity and accessibility, gender equality, sustainability, inclusivity, relevance and innovation, safety and fair competition, and the possibility of creating more events.
-    \par we analyzed the table of event numbers from 1948 to 2020 and used the Python language for data visualization. Then, we performed a linear fit to analyze the regularity of the changes in the number of events from 1948 to 2020. Subsequently, we trained a random forest regression model using the seven dimensions as independent variables and the slope of the linear fit as the dependent variable.
-    \par we utilized the well-trained random forest regression model to identify three SDEs that may be added or reintroduced at the 2032 Brisbane Olympic Games and determined their priority recommendation order.
-\end{abstract}
-\keywords{Olympics, SDEs analysis, IOC criteria, Random Forest Regression}
+% COMAP 要求的 Summary Sheet 标题（2020）
+% 注意每年比赛时有可能有小调整
+% 请以官网发布的样式为准自行做小的修改！
+\newcommand{\@problem}[1]{}
+\newcommand{\problem}[1]{\gdef\@problem{#1}}
+\newcommand{\makesheet}{ %生成sheet头命令的定义
+    \null%
+    \vspace*{-5pc}%
+    \begin{center}
+    \begingroup
+    \setlength{\parindent}{0pt}
+    \begin{minipage}[t]{0.33\linewidth}
+        \centering
+        \textbf{Problem Chosen}\\
+        \LARGE\@problem
+        \end{minipage}%
+        \begin{minipage}[t]{0.34\linewidth}
+        \centering
+        \bfseries\the\year\\\contest\\{Summary Sheet}
+        \end{minipage}%
+        \begin{minipage}[t]{0.33\linewidth}
+        \centering
+        \textbf{Team Control Number}\\
+        \LARGE\MCM@control\\[1.8pc]
+    \end{minipage}\par
+    \vskip1ex
+    \rule{\linewidth}{1.5pt}\par
+    \endgroup
+    \vskip 10pt%
+    \end{center}}
 
+% abstract 环境的设置
+\newbox\@abstract   % 将摘要创建为盒子
+\setbox\@abstract\hbox{}  % 盒子置空
+\long\def\abstract{\bgroup\global\setbox\@abstract\vbox\bgroup\hsize\textwidth}
+\def\endabstract{\egroup\egroup}
+\def\make@abstract{
+    \vskip -10pt\par
+    {\centering\Large\bfseries\@title\vskip1ex}\par  % 插入论文标题，字号可自己修改
+    {\centering\bfseries\abstractname\vskip1.5ex}\par  %摘要标题
+    \noindent\usebox\@abstract\par  % 摘要正文
+    \vskip 10pt}  % 底部留空，若不需要可删去
 
-\tableofcontents
-\section{Introduction}
+% Summary Sheet 生成
+\def\@maketitle{
+	\makesheet%
+	\make@abstract
+    \pagenumbering{gobble}
+    \pagestyle{empty}
+    \newpage
+    \pagenumbering{arabic}
+    \setcounter{page}{2}}%1
 
-\subsection{Background}  
-The adjustment of Olympic SDEs plays a vital role in the development of the Olympic Games, allowing the Olympics to keep pace with the social and contemporary needs. Data shows trend of SDEs' changes, while IOC also gives its criteria for sports inclution. To better evaluate SDE's addition and reduction, we need to figure out inner relationship between IOC criteria and SDE's changes.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=14cm]{graph 2.png}
-    \caption{Olympics}
-\end{figure}
-\subsection{Restatement of the Problems}
-\begin{itemize}
-\item[$\bullet$]List and describe the various factors your team identifies that need to be
-considered when addressing the IOC criteria. Note that factors may be quantitative or qualitative,
-constant or variable, and deterministic or probabilistic. Be sure to justify your choices.
-\item[$\bullet$]Use your factors to build a model (or set of models) to help the IOC evaluate
-which SDEs align best with Olympic criteria. Test your model on at least three SDEs that have been added or removed from recent
-Olympics, namely Olympic years 2020, 2024, and 2028 and at least three SDEs that have
-continuously been in the Olympic programme since the 1988 games or earlier. The
-supplied data provides information about which sports and
-disciplines, and number of events, have appeared in each Olympics since their modern
-formation. Be sure to highlight the general applicability of your model by choosing a
-diverse collection of SDEs to evaluate. Discuss how your model affirms these SDEs'
-current Olympic status.
-\item[$\bullet$]Identify three SDEs that could be new additions or reintroductions for the 2032 Olympics
-in Brisbane. Make sure to identify which SDE should be considered first, second and
-third for inclusion in the Brisbane games. Are there any SDEs that you believe have
-potential for inclusion in an Olympic games in 2036 or beyond?
-\end{itemize}
-\subsection{Data Pre-processing}
-We first excluded some items with poor data, such as polo, rackets and karate, choosing data from 33 items to train our model (20\% of them are randomly decided as test dataset for model, and two of them are for manually test).
-We then used linear fit to the number of projects from 1948 to 2020 for each project. Figure 1 shows the result of linear fit. 
-Discovering that the intercept of figure 1 is suitable for evaluating new or old SDEs, we generated figure 2, whose y axis shows the intercept of figure 1,
-and x axis represents the increasing rate of each SDE.
-\captionsetup[listing]{labelformat=empty}
-\begin{figure}[h] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
-    \centering %图片居中
-    \includegraphics[width=0.8\textwidth]{图片1.png} %插入图片，[]中设置图片大小，{}中是图片文件名
-    \caption{Lines of project quantity changes with the years} %最终文档中希望显示的图片标题
-    \label{Fig.main2} %用于文内引用的标签
-    \end{figure}
-\begin{figure}[h] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
-    \centering %图片居中
-    \includegraphics[width=0.8\textwidth]{TrendChartOfProject} %插入图片，[]中设置图片大小，{}中是图片文件名
-    \caption{Growth rate and the newness of the project} %最终文档中希望显示的图片标题
-    \label{Fig.main2} %用于文内引用的标签
-    \end{figure}
+% 目录生成
+\renewcommand\tableofcontents{%
+    \centerline{\normalfont\Large\bfseries\contentsname%
+    \@mkboth{%
+    \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
+    \vskip 3ex%
+    \@starttoc{toc}%
+    \thispagestyle{fancy}
+    \clearpage
+    \pagestyle{fancy}
+    \setlength\parskip{1ex}}  % 调整段间距
 
-
-\section{Assumptions}
-% 我们通过在网上查找多方面的资料并参考权威数据，最后对33个项目的七个维度进行了评分，结果如下：
-% 展示表格
-To simplify the problem, we make the following basic assumptions, each of which is
-properly justified.
-\begin{itemize}
-\item[$\bullet$]Assumption 1: According to online information and authoritative data, 
-we scored the 6 dimensions of 33 projects from 0 to 1 (1 means the best), and gave each project a weight for the possibility of creating more events. See Appendix for details.
-\item[$\bullet$]Assumption 2:  No extreme events will occurr, such as war or natural disasters.
-\end{itemize}
-\section{Abbreviation and Definitions}
-\begin{table}[h]
-    \begin{tabular}{l|l}
-    \hline
-    \\
-    H(X) & Entropy in a node                              \\
-    p    & Probability of different class in current node \\
-    G(D) & Entropy gain                                   \\
-    X    & Upper level                                    \\
-    D    & Current Level                                  \\ 
-    \\\hline
-    \end{tabular}
-    \end{table}
-\section{The Evaluate Model}
-
-\subsection{Random Forest Regression}
-\subsubsection{Introduction}
-%TODO: 随机森林回归的定义
-We used seven dimensions as independent variables and the slope of linear fitting as the dependent variable to train a random forest regression model. The random forest model is a decision tree-based model, which is trained in parallel using multiple decision trees, effectively reducing training time while providing a more accurate data model.
-%我们以七个维度和作为自变量，线性拟合的斜率作为因变量，训练了一个随机森林回归模型。随机森林模型是一种基于决策树的模型，其本身是多个决策树并行的训练方式，有效地降低了训练的时间地同时带来更加精确的数据模型。
-\subsubsection{Principle}
-%随机森林模型是基于决策树的，此处首先解释决策树选择最优决策的方法。此处引入熵的概念。
-The random forest model is based on decision trees, and here we first explain the method by which decision trees select the optimal decision. The concept of entropy is introduced at this point.\\
-%决策树是一种二叉树，每一层只做出一种选择，我们可以通过熵来衡量每一个父节点的不确定性。熵的计算公式如下：
-Decision trees are a type of binary tree, where each level makes only one choice. We can measure the uncertainty of each parent node using entropy. The formula for calculating entropy is as follows:\\
-$$H(X)= -\sum_{k=1}^N p_k log_2(p_k)$$
-%除去整一棵决策树的根节点，和最小的子节点，我们能算出每一个节点的熵的增益：
-Excluding the root node and the smallest child nodes of an entire decision tree, we can calculate the entropy gain for each node:
-$$G(D)= H(X)-\sum_{v=1}^V \frac {\left|D^v\right|}{\left|D\right|} H(D)^v$$
-%其中G(D)表示熵的增益，H(X)表示上一层的熵，后面是当前一层的熵的总和。
-In which G(D) denotes the gain in entropy, H(X) denotes the entropy of the previous layer, and what follows is the sum of the entropies of the current layer.\\
-%决策树的整体流程如下：
-The overall process of the decision tree is as follows:\\
-(1) Filter all possible decision conditions.\\%过滤所有可能的决策条件。
-(2) Select the decision condition with the minimum entropy of the child nodes.\\%选择子节点熵最小的决策条件。
-(3) Repeat step1 and step2 until it reach the maximumpredefined depth or all the elements in a single lead node belong to one class.\\[1em]
-Next, let's talk about the random forest model:\\[0.5em]%接着来讲随机森林模型:
-\qquad 1. Perform random sampling with replacement on the data to create multiple subsets of training data for the training of each decision tree.\\[0.5em]%对数据进行有放回的随机抽样，创建多个训练数据的子集，用于每个决策树的训练。
-\qquad 2. For each node of every decision tree, randomly select a subset of features and perform splits based on the chosen features.\\[0.5em]%对于每棵决策树的每个节点随机选择特征子集，基于选定的特征进行分裂。
-\qquad 3. Create a decision tree for each subset using a random subset of features. Train the decision trees in parallel.\\[0.5em]对%每个子集使用随机特征子集创建一棵决策树。将决策树进行并行训练处理。
-\qquad 4. Input new data into the trained model. Each decision tree will produce a prediction. The final prediction is obtained by calculating the average of these predictions.\\[0.5em]%将新数据输入到训练好的模型之中，在每一棵决策树中都会得到一个预测结果，通过计算预测结果的平均值便可得到最终的最测结果。
-\subsubsection{Implementation}
-We used the random forest fitting algorithm from the sklearn module of python.\\
-% Code
-\begin{listing}[htb]\caption{Random Forest Regression}\label{code:processdweet}
-    \begin{minted}[frame=single, linenos=false]{python3}
-        model = RandomForestRegressor(n_estimators=100, random_state=42)
-        model.fit(X_train, y_train)
-    \end{minted} 
-\end{listing}
-\\[0.6em]
-After building the model, we can obtain the predicted values:\\
-\begin{listing}[h]\caption{Prediction}\label{code:pppd}
-    \begin{minted}[frame=single,linenos=flase]{python3}
-        y_pred = model.predict(X_test)
-    \end{minted}
-\end{listing}
-
-
-\subsubsection{Result Analysis}
-To evaluate the model, we calculate $R^2$ by using codes:\\
-
-\begin{listing}[htb]\caption{Evaluation}\label{code:pppd}
-    \begin{minted}[frame=single,linenos=flase]{python3}
-        mse = mean_squared_error(y_test, y_pred)
-        r2 = r2_score(y_test, y_pred)
-    \end{minted}
-\end{listing}
-In the test set, our model achieved an R Square error of 0.6 and a mean square error of 0.12, making the regression training basically successful.
-
-
-We used this model to predict data outside of the training and test sets
-
-\iftrue\begin{table}[H]
-    \begin{tabular}{lllllllll}
-    Name      & P. A. & G. E. & S. & I. & R. I. & S. F. & M. & Composite Scores(predicted)        \\
-    Wrestling & 0.7                          & 0.6           & 0.8            & 0.8         & 0.5                      & 0.8                  & 0     & 0.205263158 \\
-              &                              &               &                &             &                          &                      &       &             \\
-              &                              &               &                &             &                          &                      &       &            
-    \end{tabular}
-    \end{table}
-\fi
-
-According to  the prediction, the number of wrestling event will increase by one events every 5 Olympics Games. This is in line with the fact that wrestling increased from 10 to 12 events during the 12 Olympic Games from 1972 to 2016.
-As the results indicate, our model has been basically successful in predicting the increase in the number of projects.
-%结果表明，我们的模型在预测项目数量的增长上取得了成功。
-
-
-
-\section{Prediction for SDEs Projects}
-\subsection{Background of This Problem}
-To determine whether to play or not to play, IOC’s Olympic Programme Commission has developed a set of 
-criteria: \textbf{Popularity and Accessibility}, \textbf{Gender Equity},  \textbf{Sustainability}, \textbf{Inclusivity}, \textbf{Relevance and Innovation}, \textbf{Safety and Fair Play}. We use these criteria to evaluate which SDEs should be added or removed.
-\subsection{Appliance}
-By using random forest model, we analyse the slope of the lines which we build from the data of the number of SDEs and its link between the six criteria, then train them into a model. By using this model, we can use the output to predict the trend of the any sport by inputing datas of the six criteria.
-\subsection{Result}
-We get a score from the model of each of the sport by using the model, it's shown that Aquatics is the highest one, while Athletics is the second. They will be possibly increased in 2036 Olympics. Other sport which is higher than 0.5 score has high possibility of being increase. Inputing score of six criteria of a new sport, we can know if the sport will be involved.
-%\subsection{Efficiency and Robustness}
-% \section{Sensitivity Analysis}
-\section{Strengths and Weaknesses}
-
-\subsection{Strengths}
-The model has the advantages of strong randomness, being less prone to overfitting, not being sensitive to outliers, being suitable for situations where there are many unknown features in the dataset, processing high-dimensional data relatively quickly, being able to estimate which features are more important in classification, and being able to handle parallel processing. Using a random forest model here is quite fast and very appropriate.%该模型具有随机性强、不易overfit、对异常点outlier不敏感、适用于数据集中存在大量未知特征的情况、处理高维数据相对较快、能够估计哪个特征在分类中更重要、可以并行处理的优点。在此处使用随机森林模型较为快捷，十分合适。
-\subsection{Weaknesses}
-Random forest models, being black boxes, have many inexplicable aspects and are prone to overfitting in places with excessive noise. Given the limited amount of data here, there is a high likelihood of overfitting when using this model, and there is a certain possibility of making incorrect predictions.%随机森林模型由于是黑盒，其不可解释的地方较多，在噪声过大的地方容易过拟合。在此处由于数据量较少，使用该模型很可能过拟合，做出错误的预测也有一定的可能性。
-\section{Conclusion}
-In this paper, we first do a significant pre-processing about the trend of SDEs, then we try to evaluate the score of the six criteria of each sports, some of them are given by AI. Model is trained by analysing the data of six criteria and the slope of the trend of each sports, using random forest regression. By using the model, we finally get a persuasive score of SDEs. The scores can briefly point out which SDEs is about to removed and which one can be surely involved.
-\section{Appendix}
-
-\subsection{7-dimension Scores of the SDEs}
-P.A. = Popularity and Accessibility \ G.E. = Gender Equality \ S. = Sustainability
-
-I. = Inclusivity \ R.I. = Relevance and Innovation \ S.F. = Safety and Fair competition
-
-M. = the potential of adding relative events
-\begin{table*}[h]
-    \begin{tabular}{|l|lllllll|l|ll}
-    \cline{1-9}
-    \multicolumn{1}{|c|}{\multirow{2}{*}{SDEs}} & \multicolumn{7}{c|}{Scores}                                                                                                                                                                                 & \multicolumn{1}{c|}{\multirow{2}{*}{Composite Scores}} &  &  \\ \cline{2-8}
-    \multicolumn{1}{|c|}{}                      & \multicolumn{1}{c|}{P.A.}     & \multicolumn{1}{c|}{G.E.}     & \multicolumn{1}{c|}{S.}   & \multicolumn{1}{c|}{I.}   & \multicolumn{1}{c|}{R.I.} & \multicolumn{1}{c|}{S.F.}     & \multicolumn{1}{c|}{M.} & \multicolumn{1}{c|}{}                                  &  &  \\ \cline{1-9}
-    Aquatics                                    & \multicolumn{1}{l|}{0.95}     & \multicolumn{1}{l|}{0.95}     & \multicolumn{1}{l|}{0.95} & \multicolumn{1}{l|}{0.95} & \multicolumn{1}{l|}{0.95} & \multicolumn{1}{l|}{0.95}     & 4                       & 1.817293                                               &  &  \\ \cline{1-9}
-    Archery                                     & \multicolumn{1}{l|}{0.5}      & \multicolumn{1}{l|}{0.7}      & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.9}      & 0                       & 0.303759                                               &  &  \\ \cline{1-9}
-    Athletics                                   & \multicolumn{1}{l|}{0.9}      & \multicolumn{1}{l|}{0.9}      & \multicolumn{1}{l|}{0.9}  & \multicolumn{1}{l|}{0.9}  & \multicolumn{1}{l|}{0.9}  & \multicolumn{1}{l|}{0.9}      & 0.6                     & 0.930075                                               &  &  \\ \cline{1-9}
-    Badminton                                   & \multicolumn{1}{l|}{0.6}      & \multicolumn{1}{l|}{0.7}      & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.9}      & -2                      & 0.369925                                               &  &  \\ \cline{1-9}
-    Baseball and Softball                       & \multicolumn{1}{l|}{0.65}     & \multicolumn{1}{l|}{0.65}     & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.65} & \multicolumn{1}{l|}{0.8}      & 1                       & 0.146617                                               &  &  \\ \cline{1-9}
-    Basketball                                  & \multicolumn{1}{l|}{0.95}     & \multicolumn{1}{l|}{0.6}      & \multicolumn{1}{l|}{0.85} & \multicolumn{1}{l|}{0.85} & \multicolumn{1}{l|}{0.85} & \multicolumn{1}{l|}{0.6}      & -3                      & 0.122556                                               &  &  \\ \cline{1-9}
-    Boxing                                      & \multicolumn{1}{l|}{0.7}      & \multicolumn{1}{l|}{0}        & \multicolumn{1}{l|}{1}    & \multicolumn{1}{l|}{0.4}  & \multicolumn{1}{l|}{0.5}  & \multicolumn{1}{l|}{0.2}      & 0                       & 0.192481                                               &  &  \\ \cline{1-9}
-    Canoeing                                    & \multicolumn{1}{l|}{0.55}     & \multicolumn{1}{l|}{0.65}     & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.55} & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.8}      & 0                       & 0.54812                                                &  &  \\ \cline{1-9}
-    Cycling                                     & \multicolumn{1}{l|}{0.8}      & \multicolumn{1}{l|}{0.75}     & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.68} & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.7}      & 0                       & 0.948872                                               &  &  \\ \cline{1-9}
-    Equestrian                                  & \multicolumn{1}{l|}{0.4}      & \multicolumn{1}{l|}{0.7}      & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.5}  & \multicolumn{1}{l|}{0.5}  & \multicolumn{1}{l|}{0.74}     & -1.5                    & 0.009774                                               &  &  \\ \cline{1-9}
-    Fencing                                     & \multicolumn{1}{l|}{0.6}      & \multicolumn{1}{l|}{0.7}      & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.9}      & 0                       & 0.236842                                               &  &  \\ \cline{1-9}
-    Field hockey                                & \multicolumn{1}{l|}{0.7}      & \multicolumn{1}{l|}{0.8}      & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.9}      & -1.5                    & 0.07218                                                &  &  \\ \cline{1-9}
-    Football                                    & \multicolumn{1}{l|}{1}        & \multicolumn{1}{l|}{0.9}      & \multicolumn{1}{l|}{0.9}  & \multicolumn{1}{l|}{1}    & \multicolumn{1}{l|}{0.9}  & \multicolumn{1}{l|}{1}        & -3                      & 0.07218                                                &  &  \\ \cline{1-9}
-    Golf                                        & \multicolumn{1}{l|}{0.8}      & \multicolumn{1}{l|}{1}        & \multicolumn{1}{l|}{0.4}  & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.9}      & -2                      & 0.076692                                               &  &  \\ \cline{1-9}
-    Gymnastics                                  & \multicolumn{1}{l|}{0.63} & \multicolumn{1}{l|}{0.77} & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.83} & 0                       & 0.330827                                               &  &  \\ \cline{1-9}
-    Handball                                    & \multicolumn{1}{l|}{0.65}     & \multicolumn{1}{l|}{0.65}     & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.85}     & -0.6                    & 0.131579                                               &  &  \\ \cline{1-9}
-    Judo                                        & \multicolumn{1}{l|}{0.7}      & \multicolumn{1}{l|}{0.7}      & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.9}      & 1                       & 0.963158                                               &  &  \\ \cline{1-9}
-    Rowing                                      & \multicolumn{1}{l|}{0.65}     & \multicolumn{1}{l|}{0.7}      & \multicolumn{1}{l|}{0.75} & \multicolumn{1}{l|}{0.65} & \multicolumn{1}{l|}{0.75} & \multicolumn{1}{l|}{0.85}     & 0                       & 0.478947                                               &  &  \\ \cline{1-9}
-    Rugby                                       & \multicolumn{1}{l|}{0.75}     & \multicolumn{1}{l|}{0.75}     & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.75} & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.9}      & -2                      & 0.076692                                               &  &  \\ \cline{1-9}
-    Sailing                                     & \multicolumn{1}{l|}{0.7}      & \multicolumn{1}{l|}{0.8}      & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.9}      & 0                       & 0.381955                                               &  &  \\ \cline{1-9}
-    Shooting                                    & \multicolumn{1}{l|}{0.9}      & \multicolumn{1}{l|}{0.9}      & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.9}  & \multicolumn{1}{l|}{0.9}      & 0                       & 0.67218                                                &  &  \\ \cline{1-9}
-    Skateboarding                               & \multicolumn{1}{l|}{0.8}      & \multicolumn{1}{l|}{0.9}      & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.8}      & 0                       & 0.108271                                               &  &  \\ \cline{1-9}
-    Sport Climbing                              & \multicolumn{1}{l|}{0.3}      & \multicolumn{1}{l|}{0.4}      & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.4}  & \multicolumn{1}{l|}{0.4}  & \multicolumn{1}{l|}{0.6}      & 0                       & 0.082707                                               &  &  \\ \cline{1-9}
-    Squash                                      & \multicolumn{1}{l|}{0.8}      & \multicolumn{1}{l|}{0.9}      & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.9}      & -1                      & 0.041353                                               &  &  \\ \cline{1-9}
-    Surfing                                     & \multicolumn{1}{l|}{0.8}      & \multicolumn{1}{l|}{0.9}      & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.9}      & -2                      & 0.054135                                               &  &  \\ \cline{1-9}
-    Table Tennis                                & \multicolumn{1}{l|}{0.9}      & \multicolumn{1}{l|}{0.9}      & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.9}  & \multicolumn{1}{l|}{0.9}      & -1                      & 0.32782                                                &  &  \\ \cline{1-9}
-    Taekwondo                                   & \multicolumn{1}{l|}{0.4}      & \multicolumn{1}{l|}{0.4}      & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.4}  & \multicolumn{1}{l|}{0.5}  & \multicolumn{1}{l|}{0.7}      & 0                       & 0.547368                                               &  &  \\ \cline{1-9}
-    Tennis                                      & \multicolumn{1}{l|}{0.6}      & \multicolumn{1}{l|}{0.6}      & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.8}      & 0                       & 0.348872                                               &  &  \\ \cline{1-9}
-    Triathlon                                   & \multicolumn{1}{l|}{0.8}      & \multicolumn{1}{l|}{0.9}      & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.8}      & 0                       & 0.16391                                                &  &  \\ \cline{1-9}
-    Volleyball                                  & \multicolumn{1}{l|}{0.6}      & \multicolumn{1}{l|}{0.6}      & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.8}      & -1                      & 0.240602                                               &  &  \\ \cline{1-9}
-    Weightlifting                               & \multicolumn{1}{l|}{0.7}      & \multicolumn{1}{l|}{0.5}      & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.6}      & 0                       & 0.470677                                               &  &  \\ \cline{1-9}
-    Wrestling                                   & \multicolumn{1}{l|}{0.7}      & \multicolumn{1}{l|}{0.6}      & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.5}  & \multicolumn{1}{l|}{0.8}      & 0                       & 0.105263                                               &  &  \\ \cline{1-9}
-    Modern Pentathlon                           & \multicolumn{1}{l|}{0.5}      & \multicolumn{1}{l|}{0.6}      & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.6}  & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.7}      & 0                       & 0.010526                                               &  &  \\ \cline{1-9}
-    Roque                                       & \multicolumn{1}{l|}{0.7}      & \multicolumn{1}{l|}{0.8}      & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.7}  & \multicolumn{1}{l|}{0.8}  & \multicolumn{1}{l|}{0.9}      & 0                       & 0.3                                                    &  &  \\ \cline{1-9}
-    \end{tabular}
-    \end{table*}
-    \\[30em]
-    \subsection{Code}
-\begin{listing}[h]\caption{Code}
-    \begin{minted}[frame=single, linenos=false]{python3}
-import numpy as np
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error, r2_score
-from sklearn.preprocessing import StandardScaler
-import joblib
-target = []
-data = pd.read_excel("data.xlsx")
-factors = []
-for i in range(0,31):
-    _ = []
-    for j in range(11,18):
-        _.append(data.iloc[i, j])
-    factors.append(_.copy())
-    target.append(data.iloc[i, 18])
-print(factors)
-ori_factors = factors.copy()
-for i in range(len(factors)):
-    factors[i] = factors[i]+[target[i]]
-
-np.random.seed(42)
-data = pd.DataFrame(factors, columns=[f'factor_{i+1}' for i in range(7)] + ['target'])
-
-X = data.iloc[:, :-1]  
-y = data.iloc[:, -1]   
-
-# 2. Data dividing
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# 3. Model chosen
-model = RandomForestRegressor(n_estimators=100, random_state=42)
-model.fit(X_train, y_train)
-
-# 4. Prediction
-y_pred = model.predict(X_test)
-
-# 5. Evaluation
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
-
-print(f"Mean Squared Error: {mse}")
-print(f"R-squared: {r2}")
-
-    \end{minted}
-\end{listing}
-\end{document}  
+\endinput

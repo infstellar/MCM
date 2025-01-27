@@ -135,16 +135,18 @@ Since there're several unacquirable data, we simplify our model by making assump
  \midrule
  $x$   &         Tax rate \\
  $T$   &         Tax \\
- $C$   &         Tourists count\\
- $e$   &         Consumption per tourist \\
+ $C$   &         Tourists count per year\\
+ $E$   &         Consumption per tourist \\
  $TTI$ &         Tax used to maintain infrastructures\\
  $CDI$ &         Each tourist s damagement to infrastructures\\
+ $IS$  &         State of infrastructures\\
  $CTS$ &         Tourist\textquotesingle s satisfaction affected by tourist count\\
  $CIS$ &         Tourist\textquotesingle s satisfaction influenced by infrastructures\\
  $LinS$ &        The Locals\textquotesingle satisfaction affected by income\\
  $LIS$ &         The Locals\textquotesingle satisfaction affected by infrastructures\\
  $LS$ &          Satisfaction of the locals\\
  $CS$ &          Satisfaction of the tourists\\
+ $EIE$ &         Expenditure in maintaining infrastructures and environment\\
  \bottomrule[2pt]
  \end{tabular}	\label{tab1} % 交互引用 
   \iffalse\begin{tablenotes}
@@ -193,7 +195,7 @@ Since there're several unacquirable data, we simplify our model by making assump
 \item 税跟游客数量的数学模型\\
 旅游税的增加在一定程度上会影响游客的数量。从文献\cite{taxandtour}中我们可以得出旅游税每增加 10\%旅游人数就减少 5.4\%的结论。利用该结论并结合文献\cite{pop}中的数据，我们可以建立数学模型：\\
 $$C=1670000 \times 0.946^{10x-48}$$\\
-其中C为游客数量，x为税率。从途径上，增加旅游税可以在一定程度上限制游客的人数，在控制游客数量的时候可以考虑增加税款，但是由于模型相对简陋，对于过高或者过低的税率的情形没有作出很好的预测，所以在这里限制旅游税率的范围：$$4\% \leq x  \leq 15\%$$
+其中C为游客数量，x为税率。从途径上，增加旅游税可以在一定程度上限制游客的人数，在控制游客数量的时候可以考虑增加税款，但是由于模型相对简陋，对于过高或者过低的税率的情形没有作出很好的预测，所以在这里限制旅游税率的范围：$$3\% \leq x  \leq 20\%$$
 这里我们可以得到一个可观的曲线图：
 \begin{figure}[htbp]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
  
@@ -203,9 +205,54 @@ $$C=1670000 \times 0.946^{10x-48}$$\\
     \label{fig1}%交互引用
     \end{figure}
 \item 游客满意度的数学模型\\
-
-
-
+通过前面建立的因果模型，我们定义游客满意度分为CIS和CTS。对于CIS，我们定义：
+$$CIS=F(IS)$$
+$$IS=CDI+TTI$$
+其中的函数F时将State of infrastructures转化为CIS的函数，后面会进行解释。通过查阅政府报告\cite{Inf},我们得到government\textquotesingle s EIE和CDI。
+对数据进行拟合，我们得到CDI的数学模型：
+$$
+CDI=
+\begin{cases}
+    -12C^{1.05}, &if\ C\ is\ no\ more\ than\ 15000\\
+    -12C^{1.06}, &if\ C\ is\ more\ than\ 15000
+\end{cases}
+$$
+CDI的图线如下：
+对于税款我们可以通过报告\cite{spend}中得到的E和x求出：
+$$T=C\times E\times x$$
+根据报告中的数据以及往年对于基础设施上的支出，我们最终拟合出了TTI的函数。
+$$TTI=
+\begin{cases}
+    T-150000, &if\ T\ is\ no\ more\ than\ 546000\\
+    \frac{25T}{1.2 \log_{1.4}{100x}}, &if\ T\ is\ more\ than\ 546000
+\end{cases}
+$$
+图线如下：
+\begin{figure}[htbp]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
+ 
+    \centering  %图表居中
+    \includegraphics[width=0.9\textwidth]{tax2inf.png} %图片的名称或者路径之中有空格会出问题 
+    \caption{Graph of TTI} % 图片标题                 
+    \label{fig1}%交互引用
+    \end{figure}
+模型展示了税收变多到了一定程度时，在基建上的投入比例会有所降低。
+如此，我们可以获得IS的图线：
+\begin{figure}[h]  %h此处，t页顶，b页底，p独立一页，浮动体出现的位置 [H]
+ 
+    \centering  %图表居中
+    \includegraphics[width=0.9\textwidth]{IS.png} %图片的名称或者路径之中有空格会出问题 
+    \caption{Graph of IS} % 图片标题                 
+    \label{fig1}%交互引用
+    \end{figure}
+\clearpage
+F 是将IS转化为satisfaction的函数，对于本地人和游客而言都是相同的。我们定义satisfaction为一种评判的指标，其值域范围为-100到100。
+$$
+CIS(LIS)=
+\begin{cases}
+    IS\times 2.408\times 10^{-5}-100, &if\ IS\ is\ no\ more\ than\ 4200000\\
+    \log_{1.01}{\frac{x-10}{40000}}-470, &11624010\geq IS \geq 4200000
+\end{cases}
+$$
 \end{enumerate}
  \section{A causal model of the impact of tourist numbers on satisfaction}
  \section{Multi-Objective Optimization Model}
@@ -348,6 +395,9 @@ We believe implementing these measures will balance tourism development and envi
     \bibitem{spend}
     Juneau Tourism Survey 2023 \& Juneau Cruise Passenger Survey 2023 \& Juneau Cruise Industry Impacts 2023 Extended Slide Deck, McKINLEY RESEARCH
     {https://www.seconference.org/wp-content/uploads/2024/02/Tourism-Panel-Heather-Haugland.pdf}
+
+    \bibitem{Inf}
+    Biennial Budget of Juneau \href{https://juneau.org/wp-content/uploads/2024/08/FY25-Adopted-Budget-Book-Final.pdf}{https://juneau.org/wp-content/uploads/2024/08/FY25-Adopted-Budget-Book-Final.pdf}
 
    %% 书籍
    \bibitem{NDZY2021}

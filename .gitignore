@@ -3,6 +3,7 @@
 *.pdf
 *.gz
 *.toc
+*.out
 *.minted
 _minted-essay/
 _minted/
